@@ -1,0 +1,14 @@
+GET http://127.0.0.1:8000/api/v1/categories
+Authorization: Basic Eve Pass4Eve!
+Content-Type: application/json
+
+###
+GET http://127.0.0.1:8000/api/v1/users
+Authorization: Basic Eve Pass4Eve!
+Content-Type: application/json
+
+
+###
+GET http://127.0.0.1:8000/api/v1/expenses
+Authorization: Basic Eve Pass4Eve!
+Content-Type: application/json

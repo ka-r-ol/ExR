@@ -9,6 +9,13 @@ Content-Type: application/json
 
 
 ###
-GET http://127.0.0.1:8000/api/v1/expenses
+#GET http://127.0.0.1:8000/api/v1/expenses
+GET http://127.0.0.1:8000/api/v1/expenses?limit=12&offset=1
 Authorization: Basic Eve Pass4Eve!
 Content-Type: application/json
+
+
+###
+GET http://127.0.0.1:8000/api/v1/expenses?limit=12&offset=1
+Authorization: Basic Adam Pass4Adam!
+Content-Type: application/jso

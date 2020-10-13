@@ -9,9 +9,12 @@ from rest.serializers import CategorySerializer, ExpenseSerializer, UserSerializ
 
 
 class ExpenseList(ListAPIView):
-    queryset = Expense.objects.all().order_by('name')
+    #queryset = Expense.objects.all().order_by('id')
     serializer_class = ExpenseSerializer
     permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self, *args, **kwargs):
+        return Expense.objects.all().filter(owner=self.request.user).order_by('-date', '-created')
 
 
 class CategoryList(ListAPIView):

@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     # frameworks
     'rest_framework',
     'django_extensions',
+    'django_filters',
 
     # apps
     'rest',
@@ -127,3 +128,9 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
+
+REST_FRAMEWORK = {
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
+    # 'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.CursorPagination',
+    'PAGE_SIZE': 3
+}

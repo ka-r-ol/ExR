@@ -12,8 +12,8 @@ class Category(models.Model):
         unique=True
     )
 
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         if len(self.name) < 15:
@@ -34,8 +34,8 @@ class Expense(models.Model):
 
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
 
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return self.name + ":" + str(self.cost) + " PLN"

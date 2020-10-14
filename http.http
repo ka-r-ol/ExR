@@ -33,3 +33,17 @@ Authorization: Basic Adam Pass4Adam!
 ###
 GET http://127.0.0.1:8000/api/v1/expenses?cost_max=1000&cost_min=75&date_after=2020-09-25&date_before=2020-09-28&name=e&offset=0
 Authorization: Basic Adam Pass4Adam!
+
+
+###
+GET http://127.0.0.1:8000/api/v1/me
+Authorization: Basic Adam Pass4Adam!
+
+###
+GET http://127.0.0.1:8000/api/v1/me
+Authorization: Basic Eve Pass4Eve!
+
+
+###
+GET http://127.0.0.1:8000/api/v1/me
+Authorization: Basic eve Pass4eve!

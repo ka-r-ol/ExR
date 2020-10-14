@@ -2,7 +2,7 @@ from rest.models import Expense, Category
 from django.contrib.auth.models import User
 
 #from rest_framework.views import APIView
-from rest_framework.generics import ListAPIView, CreateAPIView
+from rest_framework.generics import ListAPIView, CreateAPIView, RetrieveAPIView
 #from rest_framework.exceptions import ValidationError
 from rest_framework import permissions
 from django_filters import rest_framework as filters
@@ -27,7 +27,9 @@ class CategoryList(ListAPIView):
     permission_classes = [permissions.IsAuthenticated]
 
 
-class UserList(ListAPIView):
-    queryset = User.objects.all().order_by('username')
+class Me(RetrieveAPIView):
     serializer_class = UserSerializer
     permission_classes = [permissions.IsAuthenticated]
+
+    def get_object(self, queryset=None):
+        return User.objects.get(id=self.request.user.id)

@@ -4,8 +4,8 @@ Content-Type: application/json
 
 
 ###
-#GET http://127.0.0.1:8000/api/v1/expenses
-GET http://127.0.0.1:8000/api/v1/expenses?limit=12&offset=0
+#GET http://127.0.0.1:8000/api/v1/expenses?limit=12&offset=0
+GET http://127.0.0.1:8000/api/v1/expenses
 Authorization: Basic Eve Pass4Eve!
 Content-Type: application/json
 
@@ -74,7 +74,7 @@ Content-Type: application/json
     {
       "name": "APurchase of Personal - ADAM#23",
       "cost": "2909.00",
-      "date": "2020-11-01",
+      "date": "2020-12-01",
       "owner": 2,
       "category": 62
     }
@@ -83,3 +83,7 @@ Content-Type: application/json
 GET http://127.0.0.1:8000/api/v1/expense/1216
 Authorization: Basic Adam Pass4Adam!
 Content-Type: application/json
+
+###
+GET http://127.0.0.1:8000/api/v1/stats
+Authorization: Basic Eve Pass4Eve!

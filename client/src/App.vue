@@ -1,60 +1,104 @@
 <template>
   <div id="app">
-    <img src="./assets/logo.png">
-    <h1>{{ msg }}</h1>
-    <h2>Essential Links</h2>
-    <ul>
-      <li><a href="https://vuejs.org" target="_blank">Core Docs</a></li>
-      <li><a href="https://forum.vuejs.org" target="_blank">Forum</a></li>
-      <li><a href="https://chat.vuejs.org" target="_blank">Community Chat</a></li>
-      <li><a href="https://twitter.com/vuejs" target="_blank">Twitter</a></li>
-    </ul>
-    <h2>Ecosystem</h2>
-    <ul>
-      <li><a href="http://router.vuejs.org/" target="_blank">vue-router</a></li>
-      <li><a href="http://vuex.vuejs.org/" target="_blank">vuex</a></li>
-      <li><a href="http://vue-loader.vuejs.org/" target="_blank">vue-loader</a></li>
-      <li><a href="https://github.com/vuejs/awesome-vue" target="_blank">awesome-vue</a></li>
-    </ul>
+    <div v-if="!authorized">
+      <Login @clicked="onAuthorized" :loginmsg="loginmsg" />
+    </div>
+    <div v-if="authorized">
+      <p id="welcome">Witaj, {{ username }}</p>
+    </div>
   </div>
 </template>
 
 <script>
+const BASE_URL = "http://127.0.0.1:8000/api/v1/";
+import Login from "./components/Login.vue";
+import axios from "axios";
+
 export default {
-  name: 'app',
-  data () {
+  name: "app",
+  components: {
+    Login,
+  },
+  data() {
     return {
-      msg: 'Welcome to Your Vue.js App'
-    }
-  }
-}
+      authorized: false,
+
+      username: "",
+      password: "",
+      loginmsg: "", // message displayed in case of login failure
+
+      expenses: [],
+      expenses_next: "",
+      expenses_previous: "",
+
+      categories: [],
+    };
+  },
+  created() {},
+  methods: {
+    onAuthorized(value) {
+      this.authorized = true;
+      this.username = value.username;
+      this.password = value.password;
+      this.fetchExpenses();
+    },
+
+    fetchExpenses: function () {
+      var url = BASE_URL + "expenses";
+      axios
+        .get(url, {
+          auth: {
+            username: this.username,
+            password: this.password,
+          },
+        })
+        .then((res) => {
+          this.expenses = res.data.results;
+          this.expenses_next = res.data.next;
+          this.expenses_previous = res.data.previous;
+          console.log(
+            "Expenses",
+            this.expenses,
+            this.expenses_next,
+            this.expenses_previous
+          );
+        })
+        .catch((error) => {
+          this.authorized = false;
+          this.loginmsg = "Access denied. " + error;
+          console.log(error); //Logs a string: Error: Request failed with status code 404
+        });
+
+      //  fetch categories
+
+      var url = BASE_URL + "categories";
+      axios
+        .get(url, {
+          auth: {
+            username: this.username,
+            password: this.password,
+          },
+        })
+        .then((res) => {
+          this.categories = res.data;
+          console.log("Categories", this.categories);
+        })
+        .catch((error) => {
+          this.authorized = false;
+          this.loginmsg = "Access denied. " + error;
+          console.log(error); //Logs a string: Error: Request failed with status code 404
+        });
+    },
+  },
+};
 </script>
 
 <style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+[v-cloak] {
+  display: none;
 }
-
-h1, h2 {
-  font-weight: normal;
-}
-
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-
-a {
-  color: #42b983;
+#welcome {
+  text-align: right;
+  text-transform: capitalize;
 }
 </style>

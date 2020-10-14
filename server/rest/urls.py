@@ -4,6 +4,7 @@ from rest import views
 
 
 urlpatterns = [
+    # ?cost_min, cost_max, date_before, date_after, name, category__name
     path('expenses', views.ExpenseListCreateView.as_view()),
     path('categories', views.CategoryListCreateView.as_view()),
     path('me', views.Me.as_view()),

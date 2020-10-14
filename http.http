@@ -85,5 +85,9 @@ Authorization: Basic Adam Pass4Adam!
 Content-Type: application/json
 
 ###
-GET http://127.0.0.1:8000/api/v1/stats
+GET http://127.0.0.1:8000/api/v1/stats?name=Savings&cost_max=600&cost_min=500
+Authorization: Basic Eve Pass4Eve!
+
+###
+GET http://127.0.0.1:8000/api/v1/expenses?name=Savings&cost_max=600&cost_min=500
 Authorization: Basic Eve Pass4Eve!

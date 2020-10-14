@@ -2,7 +2,7 @@ from rest.models import Expense, Category
 from django.contrib.auth.models import User
 
 #from rest_framework.views import APIView
-from rest_framework.generics import RetrieveAPIView, ListCreateAPIView
+from rest_framework.generics import RetrieveAPIView, ListCreateAPIView, RetrieveUpdateDestroyAPIView
 #from rest_framework.exceptions import ValidationError
 from rest_framework import permissions
 from django_filters import rest_framework as filters
@@ -12,7 +12,7 @@ from rest.filters import ExpenseFilter
 # class ExpenseList(ListAPIView):
 
 
-class ExpenseView(ListCreateAPIView):
+class ExpenseListCreateView(ListCreateAPIView):
     #queryset = Expense.objects.all().order_by('id')
     serializer_class = ExpenseSerializer
     permission_classes = [permissions.IsAuthenticated]
@@ -23,7 +23,7 @@ class ExpenseView(ListCreateAPIView):
         return Expense.objects.all().filter(owner=self.request.user).order_by('-date', '-created')
 
 
-class CategoryView(ListCreateAPIView):
+class CategoryListCreateView(ListCreateAPIView):
     queryset = Category.objects.all().order_by('name')
     serializer_class = CategorySerializer
     permission_classes = [permissions.IsAuthenticated]
@@ -35,3 +35,19 @@ class Me(RetrieveAPIView):
 
     def get_object(self, queryset=None):
         return User.objects.get(id=self.request.user.id)
+
+
+class ExpenseRetriveUpdateDestroyView(RetrieveUpdateDestroyAPIView):
+    serializer_class = ExpenseSerializer
+    permission_classes = [permissions.IsAuthenticated]
+    filter_backends = (filters.DjangoFilterBackend,)
+    filterset_class = ExpenseFilter
+
+    def get_queryset(self, *args, **kwargs):
+        return Expense.objects.all().filter(owner=self.request.user).order_by('-date', '-created')
+
+
+class CategoryRetriveUpdateDestroyView(RetrieveUpdateDestroyAPIView):
+    queryset = Category.objects.all().order_by('name')
+    serializer_class = CategorySerializer
+    permission_classes = [permissions.IsAuthenticated]

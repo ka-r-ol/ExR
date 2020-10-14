@@ -4,11 +4,11 @@ from rest import views
 
 
 urlpatterns = [
-    path('expenses', views.ExpenseView.as_view()),
-    path('categories', views.CategoryView.as_view()),
+    path('expenses', views.ExpenseListCreateView.as_view()),
+    path('categories', views.CategoryListCreateView.as_view()),
     path('me', views.Me.as_view()),
-    path('expense/new', views.ExpenseView.as_view()),
-    path('category/new', views.CategoryView.as_view()),
-    #    path('expense/<int:id>', views.Expense.as_view()),
-    #    path('category/<int:id>', views.Category.as_view()),
+    path('expense/new', views.ExpenseListCreateView.as_view()),
+    path('category/new', views.CategoryListCreateView.as_view()),
+    path('expense/<int:pk>', views.ExpenseRetriveUpdateDestroyView.as_view()),
+    path('category/<int:pk>', views.CategoryRetriveUpdateDestroyView.as_view()),
 ]

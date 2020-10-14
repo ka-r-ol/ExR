@@ -59,3 +59,27 @@ Content-Type: application/json
 ###
 GET http://127.0.0.1:8000/api/v1/expenses?name=Adam
 Authorization: Basic Adam Pass4Adam!
+
+
+###
+DELETE http://127.0.0.1:8000/api/v1/expense/1217
+Authorization: Basic Adam Pass4Adam!
+
+
+###
+PUT http://127.0.0.1:8000/api/v1/expense/1216
+Authorization: Basic Adam Pass4Adam!
+Content-Type: application/json
+
+    {
+      "name": "APurchase of Personal - ADAM#23",
+      "cost": "2909.00",
+      "date": "2020-11-01",
+      "owner": 2,
+      "category": 62
+    }
+
+###
+GET http://127.0.0.1:8000/api/v1/expense/1216
+Authorization: Basic Adam Pass4Adam!
+Content-Type: application/json

@@ -36,6 +36,7 @@ def run():
     # with open(FILE_NAME, newline='') as csvfile:
     # expenses = csv.reader(csvfile, delimiter=';')
     # headers = next(expenses, None)
+    xyz = 1
     for i in range(1000):
         # category;owner;cost;date;name
         category = random.choice(CATEGORIES)
@@ -43,8 +44,8 @@ def run():
         cost = random.randint(1, 1000)
 
         date = datetime.date.today()+datetime.timedelta(days=-random.randint(0, 120))
-        xyz = str(random.randint(1, 10000))
-        name = f"Purchase of {category} {xyz}"
+        name = f"{username}'s purchase of {category} {xyz:>5}"
+        xyz += 1
         passw = f"Pass4{username}!"
 
         u, created = User.objects.get_or_create(username=username)

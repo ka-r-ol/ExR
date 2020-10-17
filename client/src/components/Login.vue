@@ -37,25 +37,42 @@
 </template>
 
 <script>
+import axios from "axios";
+
 export default {
-  props: ["loginmsg"],
+  //props: [],
   data: function () {
     return {
       username: "",
       password: "",
+      loginmsg: "",
     };
   },
 
   methods: {
     process: function () {
-      // https://forum.vuejs.org/t/passing-data-back-to-parent/1201
-      //console.log("username " + this.username + "pass " + this.password);
-      //this.$emit("clicked", this.username); //{ username: username, password: password });
       event.preventDefault();
-      this.$emit("clicked", {
-        username: this.username,
-        password: this.password,
-      });
+      var url = this.$BASE_API_URL + "categories";
+      var categories = {};
+
+      axios
+        .get(url, {
+          auth: {
+            username: this.username,
+            password: this.password,
+          },
+        })
+        .then((res) => {
+          res.data.forEach((el) => (categories[el.id] = el.name));
+          this.$emit("clicked", {
+            username: this.username,
+            password: this.password,
+            categories: categories,
+          });
+        })
+        .catch((error) => {
+          this.loginmsg = "Access denied. " + error;
+        });
     },
   },
 };

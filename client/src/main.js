@@ -18,7 +18,8 @@ const store = new Vuex.Store({
     user_id: 0,
     username: "",
     password: "",
-    categories_raw: []
+    categories_raw: [],
+    stats: {},
   },
   mutations: {
     // this.$store.commit("set_user_id", user_id)

@@ -115,7 +115,7 @@ import ExpenseFilter from "./ExpenseFilter.vue";
 import AddExpense from "./AddExpense.vue";
 
 export default {
-  props: ["categories"],
+  props: [],
   components: { ExpenseFilter, AddExpense },
   data() {
     return {
@@ -162,6 +162,13 @@ export default {
     };
   },
   computed: {
+    categories() {
+      var categories_conv = {};
+      this.$store.state.categories_raw.forEach(
+        (el) => (categories_conv[el.id] = el.name)
+      );
+      return categories_conv;
+    },
     rows() {
       return this.count;
     },
@@ -187,7 +194,8 @@ export default {
         message += "name includes " + this.paramFilter.name + "; ";
       }
       if (this.paramFilter.category__name != "") {
-        message += "category includes" + this.paramFilter.category__name + "; ";
+        message +=
+          "category includes " + this.paramFilter.category__name + "; ";
       }
       if (message != "") {
         message = "Filter: " + message;
@@ -251,11 +259,13 @@ export default {
       });
 
       // Must return a promise that resolves to an array of items
+      //console.log("CAT", this.cat);
       return promise.then((res) => {
         // Pluck the array of items off our axios response
         this.items = res.data.results;
         this.count = res.data.count;
         this.items.forEach(
+          //(el) => (el.categoryName = this.categories[el.category])
           (el) => (el.categoryName = this.categories[el.category])
         );
         // Must return an array of items or an empty array if an error occurred

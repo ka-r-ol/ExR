@@ -53,8 +53,8 @@ export default {
     process: function () {
       event.preventDefault();
 
-      var categories = {};
-      var categories_raw = [];
+      //      var categories = {};
+      //      var categories_raw = [];
 
       var url = this.$BASE_API_URL + "me";
       axios
@@ -83,15 +83,15 @@ export default {
           },
         })
         .then((res) => {
-          categories_raw = res.data;
+          //categories_raw = res.data;
           this.$store.commit("set_categories", res.data);
-          res.data.forEach((el) => (categories[el.id] = el.name));
+          //res.data.forEach((el) => (categories[el.id] = el.name));
           this.$store.commit("set_username_and_password", {
             username: this.username,
             password: this.password,
           });
           this.$emit("clicked", {
-            categories: categories,
+            //categories: categories,
           });
         })
         .catch((error) => {

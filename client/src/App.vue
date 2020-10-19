@@ -4,7 +4,7 @@
       <Login @clicked="onLogIn" />
     </div>
     <div v-if="authorized">
-      <ExpenseGrid @clicked="onLogOut" :categories="categories" />
+      <ExpenseGrid @clicked="onLogOut" />
     </div>
   </div>
 </template>
@@ -24,14 +24,12 @@ export default {
   data() {
     return {
       authorized: false,
-      categories: {},
     };
   },
   created() {},
   methods: {
     onLogIn(value) {
       this.authorized = true;
-      this.categories = value.categories;
     },
     onLogOut(value) {
       this.authorized = false;

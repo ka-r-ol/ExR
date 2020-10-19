@@ -65,7 +65,8 @@ export default {
           },
         })
         .then((res) => {
-          this.$store.state.user_id = res.data.id;
+          //this.$store.state.user_id = res.data.id;
+          this.$store.commit("set_user_id", res.data.id);
           console.log("USER_ID LOGIN", this.$store.state.user_id);
         })
         .catch((error) => {
@@ -83,13 +84,14 @@ export default {
         })
         .then((res) => {
           categories_raw = res.data;
+          this.$store.commit("set_categories", res.data);
           res.data.forEach((el) => (categories[el.id] = el.name));
-          this.$store.state.count = 3;
-          this.$emit("clicked", {
+          this.$store.commit("set_username_and_password", {
             username: this.username,
             password: this.password,
+          });
+          this.$emit("clicked", {
             categories: categories,
-            categories_raw: categories_raw,
           });
         })
         .catch((error) => {

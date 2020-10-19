@@ -19,7 +19,7 @@
             <b-nav-item-dropdown right>
               <!-- Using 'button-content' slot -->
               <template v-slot:button-content>
-                <em>{{ username }}</em>
+                <em>{{ $store.state.username }}</em>
               </template>
               <b-dropdown-item @click="logout" href="#"
                 >Sign Out</b-dropdown-item
@@ -51,12 +51,7 @@
       > -->
       <b-collapse id="add-expense" class="mb-3">
         <b-card>
-          <AddExpense
-            @clicked="onAddExpense"
-            :username="username"
-            :password="password"
-            :categories_raw="categories_raw"
-          />
+          <AddExpense @clicked="onAddExpense" />
         </b-card>
       </b-collapse>
       <!--   ADD EXPENSE END -->
@@ -120,7 +115,7 @@ import ExpenseFilter from "./ExpenseFilter.vue";
 import AddExpense from "./AddExpense.vue";
 
 export default {
-  props: ["username", "password", "categories", "categories_raw"],
+  props: ["categories"],
   components: { ExpenseFilter, AddExpense },
   data() {
     return {
@@ -250,8 +245,8 @@ export default {
       console.log("URL_EXPENSES", url_expenses);
       const promise = axios.get(url_expenses, {
         auth: {
-          username: this.username,
-          password: this.password,
+          username: this.$store.state.username,
+          password: this.$store.state.password,
         },
       });
 

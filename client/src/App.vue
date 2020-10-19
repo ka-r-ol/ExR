@@ -4,13 +4,7 @@
       <Login @clicked="onLogIn" />
     </div>
     <div v-if="authorized">
-      <ExpenseGrid
-        @clicked="onLogOut"
-        :username="username"
-        :password="password"
-        :categories="categories"
-        :categories_raw="categories_raw"
-      />
+      <ExpenseGrid @clicked="onLogOut" :categories="categories" />
     </div>
   </div>
 </template>
@@ -30,28 +24,21 @@ export default {
   data() {
     return {
       authorized: false,
-      user_id: 0,
-      username: "",
-      password: "",
       categories: {},
-      categories_raw: [],
     };
   },
   created() {},
   methods: {
     onLogIn(value) {
       this.authorized = true;
-      this.username = value.username;
-      this.password = value.password;
       this.categories = value.categories;
-      this.categories_raw = value.categories_raw;
-
-      console.log("USER_ID3", this.$store.state.user_id);
     },
     onLogOut(value) {
       this.authorized = false;
-      this.username = "";
-      this.password = "";
+      this.$store.commit("set_username_and_password", {
+        username: "",
+        password: "",
+      });
     },
   },
 };

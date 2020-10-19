@@ -42,7 +42,7 @@
           <b-col sm="9">
             <b-form-select
               v-model="category_id"
-              :options="categories_raw"
+              :options="$store.state.categories_raw"
               value-field="id"
               text-field="name"
             ></b-form-select>
@@ -97,7 +97,7 @@
 import axios from "axios";
 
 export default {
-  props: ["username", "password", "categories_raw"],
+  props: [],
   data() {
     return {
       date: new Date().toLocaleDateString("sv"), //trick: Sweden locale uses the ISO 8601 format
@@ -127,8 +127,8 @@ export default {
       axios
         .post(url, data, {
           auth: {
-            username: this.username,
-            password: this.password,
+            username: this.$store.state.username,
+            password: this.$store.state.password,
           },
           headers: {
             "Content-Type": "application/json",
@@ -145,7 +145,10 @@ export default {
         });
     },
     onClear: function () {
-      console.log("CAtegories_raw", this.categories_raw);
+      console.log(
+        "CAtegories_raw from store",
+        this.$store.state.categories_raw
+      );
       this.cost = 0;
       this.date = new Date().toLocaleDateString("sv"); //trick: Sweden locale uses the ISO 8601 format
       this.name = "";

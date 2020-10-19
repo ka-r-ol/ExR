@@ -54,7 +54,7 @@ Content-Type: application/json
       "cost": "999.00",
       "date": "2020-11-01",
       "owner": 2,
-      "category": 62
+      "category": 103 
     }
 
 ###
@@ -91,4 +91,9 @@ Authorization: Basic Eve Pass4Eve!
 
 ###
 GET http://127.0.0.1:8000/api/v1/expenses?name=Savings&cost_max=600&cost_min=500
+Authorization: Basic Eve Pass4Eve!
+
+
+###
+GET http://127.0.0.1:8000/api/v1/expenses?limit=20&offset=0&cost_min=50&cost_max=150&date_before=2020-10-15&name=F&category__name=R
 Authorization: Basic Eve Pass4Eve!

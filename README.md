@@ -1,7 +1,6 @@
 # ExR
 Simple Expense Register
 
-
-https://pikax.me/vue-composable/#introduction
-yarn add @vue/composition-api vue-composable
-
+npm install vue bootstrap-vue bootstrap
+npm install vue-router
+npm install vuex --save

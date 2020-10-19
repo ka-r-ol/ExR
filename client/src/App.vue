@@ -9,6 +9,7 @@
         :username="username"
         :password="password"
         :categories="categories"
+        :categories_raw="categories_raw"
       />
     </div>
   </div>
@@ -29,9 +30,11 @@ export default {
   data() {
     return {
       authorized: false,
+      user_id: 0,
       username: "",
       password: "",
       categories: {},
+      categories_raw: [],
     };
   },
   created() {},
@@ -41,6 +44,9 @@ export default {
       this.username = value.username;
       this.password = value.password;
       this.categories = value.categories;
+      this.categories_raw = value.categories_raw;
+
+      console.log("USER_ID3", this.$store.state.user_id);
     },
     onLogOut(value) {
       this.authorized = false;

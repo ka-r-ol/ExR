@@ -52,8 +52,27 @@ export default {
   methods: {
     process: function () {
       event.preventDefault();
-      var url = this.$BASE_API_URL + "categories";
+
       var categories = {};
+      var categories_raw = [];
+
+      var url = this.$BASE_API_URL + "me";
+      axios
+        .get(url, {
+          auth: {
+            username: this.username,
+            password: this.password,
+          },
+        })
+        .then((res) => {
+          this.$store.state.user_id = res.data.id;
+          console.log("USER_ID LOGIN", this.$store.state.user_id);
+        })
+        .catch((error) => {
+          this.loginmsg = "Access denied. " + error;
+        });
+
+      url = this.$BASE_API_URL + "categories";
 
       axios
         .get(url, {
@@ -63,11 +82,14 @@ export default {
           },
         })
         .then((res) => {
+          categories_raw = res.data;
           res.data.forEach((el) => (categories[el.id] = el.name));
+          this.$store.state.count = 3;
           this.$emit("clicked", {
             username: this.username,
             password: this.password,
             categories: categories,
+            categories_raw: categories_raw,
           });
         })
         .catch((error) => {

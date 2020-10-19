@@ -56,7 +56,7 @@ export default {
       //      var categories = {};
       //      var categories_raw = [];
 
-      var url = this.$BASE_API_URL + "me";
+      var url = this.$store.state.BASE_API_URL + "me";
       axios
         .get(url, {
           auth: {
@@ -73,7 +73,7 @@ export default {
           this.loginmsg = "Access denied. " + error;
         });
 
-      url = this.$BASE_API_URL + "categories";
+      url = this.$store.state.BASE_API_URL + "categories";
 
       axios
         .get(url, {
@@ -97,6 +97,7 @@ export default {
         .catch((error) => {
           this.loginmsg = "Access denied. " + error;
         });
+      //this.$store.dispatch("loadStats");
     },
   },
 };

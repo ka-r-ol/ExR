@@ -107,37 +107,37 @@
       <b-row class="my-1">
         <b-col sm="5"> Min Cost: </b-col>
         <b-col sm="7">
-          {{ paramFilter.cost_min }}
+          {{ $store.state.paramFilter.cost_min }}
         </b-col>
       </b-row>
       <b-row class="my-1">
         <b-col sm="5"> Max Cost: </b-col>
         <b-col sm="7">
-          {{ paramFilter.cost_max }}
+          {{ $store.state.paramFilter.cost_max }}
         </b-col>
       </b-row>
       <b-row class="my-1">
         <b-col sm="4"> Before: </b-col>
         <b-col sm="8">
-          {{ paramFilter.date_before }}
+          {{ $store.state.paramFilter.date_before }}
         </b-col>
       </b-row>
       <b-row class="my-1">
         <b-col sm="4"> After: </b-col>
         <b-col sm="8">
-          {{ paramFilter.date_after }}
+          {{ $store.state.paramFilter.date_after }}
         </b-col>
       </b-row>
       <b-row class="my-1">
         <b-col sm="5"> Name: </b-col>
         <b-col sm="7">
-          {{ paramFilter.name }}
+          {{ $store.state.paramFilter.name }}
         </b-col>
       </b-row>
       <b-row class="my-1">
         <b-col sm="5"> Category: </b-col>
         <b-col sm="7">
-          {{ paramFilter.category__name }}
+          {{ $store.state.paramFilter.category__name }}
         </b-col>
       </b-row>
     </b-container>
@@ -146,7 +146,7 @@
 
 <script>
 export default {
-  props: ["paramFilter"],
+  props: [],
   data() {
     return {
       editFilter: {
@@ -162,17 +162,19 @@ export default {
   methods: {
     onCopy: function () {
       for (var i in this.editFilter) {
-        this.editFilter[i] = this.paramFilter[i];
+        this.editFilter[i] = this.$store.state.paramFilter[i];
       }
     },
     onApply: function () {
       //this.paramFilter = this.editFilter;
-      for (var i in this.paramFilter) {
-        this.paramFilter[i] = this.editFilter[i];
-      }
+      //  for (var i in this.paramFilter) {
+      //   this.$store.state.paramFilter[i] = this.editFilter[i];
+      // }
 
+      this.$store.commit("set_filter", this.editFilter);
+      console.log("--paramFILTER--", this.$store.state.paramFilter);
       this.$emit("clicked", {
-        paramFilter: this.paramFilter,
+        //paramFilter: this.paramFilter,
       });
     },
     onClear: function () {

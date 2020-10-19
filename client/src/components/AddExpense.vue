@@ -8,7 +8,7 @@
           <b-col sm="3">
             <label for="date">Date:</label>
           </b-col>
-          <b-col sm="4">
+          <b-col sm="6">
             <b-form-input
               id="date"
               size="sm"
@@ -81,10 +81,10 @@
       <br />
     </div>
     <div class="text-success">
-      {{ message_success }}
+      {{ $store.state.message_add_success }}
     </div>
     <div class="text-danger">
-      {{ message_danger }}
+      {{ $store.state.message_add_danger }}
     </div>
     <!-- BUTTONS END -->
     <!--<b-button size="sm" variant="warning" v-b-toggle.filter-sidebar block
@@ -104,8 +104,6 @@ export default {
       name: "",
       category_id: "",
       cost: "",
-      message_success: "",
-      message_danger: "",
     };
   },
   computed: {},
@@ -113,36 +111,15 @@ export default {
     onSubmit: function () {
       //this.paramFilter = this.editFilter;
       console.log("PACZKA", this.date, this.name, this.category_id, this.cost);
-      var url = this.$BASE_API_URL + "expense/new";
-      var data = {
-        name: this.name,
-        cost: this.cost,
-        date: this.date,
-        category: this.category_id,
-        owner: this.$store.state.user_id,
-      };
-      console.log("URL!!!", url);
-      console.log("DATA!!!", data);
-      console.log("USER-ID pre POST", this.$store.state.user_id, data.owner);
-      axios
-        .post(url, data, {
-          auth: {
-            username: this.$store.state.username,
-            password: this.$store.state.password,
-          },
-          headers: {
-            "Content-Type": "application/json",
-          },
-        })
-        .then((res) => {
-          this.message_success = "Expense added successfully";
-          this.message_danger = "";
-        })
-        .catch((error) => {
-          this.message_success = "";
-          this.message_danger = "Error: " + error;
-          console.log(error); //Logs a string: Error: Request failed with status code 404
-        });
+      this.$emit("clicked", {
+        data: {
+          name: this.name,
+          cost: this.cost,
+          date: this.date,
+          category: this.category_id,
+          owner: this.$store.state.user_id,
+        },
+      });
     },
     onClear: function () {
       console.log(
@@ -153,8 +130,8 @@ export default {
       this.date = new Date().toLocaleDateString("sv"); //trick: Sweden locale uses the ISO 8601 format
       this.name = "";
       //this.category__name = "";
-      this.message_success = "";
-      this.message_danger = "";
+      this.$store.state.message_add_success = "";
+      this.$store.state.message_add_danger = "";
     },
   },
 };

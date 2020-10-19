@@ -11,17 +11,70 @@ import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 import axios from "axios";
 
-Vue.prototype.$BASE_API_URL = "http://127.0.0.1:8000/api/v1/";
+//Vue.prototype.$BASE_API_URL = "http://127.0.0.1:8000/api/v1/";
 
 const store = new Vuex.Store({
   state: {
+    BASE_API_URL: "http://127.0.0.1:8000/api/v1/",
     user_id: 0,
     username: "",
     password: "",
     categories_raw: [],
     stats: {},
+    message_add_danger: "",
+    message_add_success: "",
+    paramFilter: {
+      cost_min: "",
+      cost_max: "",
+      date_before: "",
+      date_after: "",
+      name: "",
+      category__name: "",
+    }
+  },
+  getters: {
+    get_message_add_danger: state => { return state.message_add_danger },
+
+    get_message_add_success: state => { return state.message_add_success },
+    get_filter_url_suffix: state => {
+      var url = "";
+      if (state.paramFilter.cost_min != "") {
+        url += "&cost_min=" + state.paramFilter.cost_min;
+      }
+      if (state.paramFilter.cost_max != "") {
+        url += "&cost_max=" + state.paramFilter.cost_max;
+      }
+      // date_after=2020-09-25&date_before=2020-09-28&name=e&
+      if (state.paramFilter.date_before != "") {
+        url +=
+          "&date_before=" + state.paramFilter.date_before;
+      }
+      if (state.paramFilter.date_after != "") {
+        url +=
+          "&date_after=" + state.paramFilter.date_after;
+      }
+      if (state.paramFilter.name != "") {
+        url += "&name=" + state.paramFilter.name;
+      }
+      if (state.paramFilter.category__name != "") {
+        url +=
+          "&category__name=" + state.paramFilter.category__name;
+      }
+
+      return url;
+    },
+    stats: state => { return state.stats },
+    username: state => { return state.username },
+    password: state => { return state.password }
   },
   mutations: {
+    // this.$store.commit("set_filter", Filter)
+    set_filter(state, Filter) {
+      console.log("FILTER--", Filter);
+      for (var i in Filter) {
+        state.paramFilter[i] = Filter[i];
+      }
+    },
     // this.$store.commit("set_user_id", user_id)
     set_user_id(state, user_id) {
       state.user_id = user_id;
@@ -35,7 +88,32 @@ const store = new Vuex.Store({
     set_categories(state, categories_raw) {
       state.categories_raw = categories_raw
     },
-  }
+    set_stats(state, stats) {
+      state.stats = stats;
+    }
+  },
+  actions: {
+    loadStats({ commit, state, getters }) {
+      // https://dev.to/ljnce/how-to-call-api-from-axios-in-vuex-store-2m3g
+      console.log("PASS&USER", state.username, state.password)
+      let url = state.BASE_API_URL + "stats";
+      if (getters.get_filter_url_suffix != "") {
+        url += "?" + getters.get_filter_url_suffix.slice(1);
+      }
+      axios
+        .get(url, {
+          auth: {
+            username: state.username,
+            password: state.password,
+          }
+        })
+        .then(res => res.data)
+        .then(stats => {
+          console.log(stats);
+          commit('set_stats', stats)
+        })
+    }
+  },
 })
 
 

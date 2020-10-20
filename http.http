@@ -97,3 +97,8 @@ Authorization: Basic Eve Pass4Eve!
 ###
 GET http://127.0.0.1:8000/api/v1/expenses?limit=20&offset=0&cost_min=50&cost_max=150&date_before=2020-10-15&name=F&category__name=R
 Authorization: Basic Eve Pass4Eve!
+
+
+### 2604
+DELETE http://127.0.0.1:8000/api/v1/expense/2604
+Authorization: Basic Eve Pass4Eve!

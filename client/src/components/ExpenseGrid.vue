@@ -23,9 +23,9 @@
               <template v-slot:button-content>
                 <em>{{ $store.state.username }}</em>
               </template>
-              <b-dropdown-item @click="logout" href="#"
-                >Sign Out</b-dropdown-item
-              >
+              <b-dropdown-item @click="logout" href="#">
+                <b-icon icon="power" aria-hidden="true"></b-icon> Sign Out
+              </b-dropdown-item>
             </b-nav-item-dropdown>
           </b-navbar-nav>
         </b-collapse>
@@ -124,8 +124,56 @@
         :fields="fields"
         :hover="true"
         small
-      ></b-table>
+      >
+        <template #cell(actions)="row">
+          <div align="right">
+            <b-icon
+              icon="trash"
+              @click="row.toggleDetails"
+              font-scale="1"
+            ></b-icon>
+          </div>
+          <!--    <b-button size="sm" @click="row.toggleDetails" class="mr-2">
+            {{ row.detailsShowing ? "Hide" : "Show" }} Details
+          </b-button> -->
+        </template>
+        <!-- -->
+        <template #row-details="row">
+          <b-card>
+            <b-button
+              variant="danger"
+              size="sm"
+              block
+              @click="removeExpense(row.item.id)"
+              >Click to remove the above expense (id:{{ row.item.id }}) from
+              database</b-button
+            >
+            <b-button
+              variant="warning"
+              size="sm"
+              block
+              @click="row.toggleDetails"
+            >
+              Cancel
+            </b-button>
+          </b-card>
+        </template>
+        <!-- -->
+      </b-table>
       <!--    Expense LIST END -->
+    </div>
+    <div align="center">
+      <b-icon icon="camera" font-scale="1"></b-icon>
+      <b-icon icon="camera" font-scale="2"></b-icon>
+      <b-icon icon="camera" font-scale="3"></b-icon>
+      <b-icon icon="camera" font-scale="4"></b-icon>
+      <b-icon icon="camera" font-scale="5.5"></b-icon>
+      <b-icon icon="camera" font-scale="7.5"></b-icon>
+      <b-icon icon="camera" font-scale="5.5"></b-icon>
+      <b-icon icon="camera" font-scale="4"></b-icon>
+      <b-icon icon="camera" font-scale="3"></b-icon>
+      <b-icon icon="camera" font-scale="2"></b-icon>
+      <b-icon icon="camera" font-scale="1"></b-icon>
     </div>
   </div>
 </template>
@@ -176,6 +224,12 @@ export default {
           class: "text-right",
           //variant: "danger",
         },
+        ,
+        {
+          key: "actions",
+          class: "text-right",
+          label: "Del",
+        },
       ],
     };
   },
@@ -198,32 +252,6 @@ export default {
         /&/g,
         " "
       );
-      /*
-      if (this.$store.state.paramFilter.cost_min != "") {
-        message += "min cost " + this.$store.state.paramFilter.cost_min + "; ";
-      }
-      if (this.$store.state.paramFilter.cost_max != "") {
-        message += "max cost " + this.$store.state.paramFilter.cost_max + "; ";
-      }
-      // date_after=2020-09-25&date_before=2020-09-28&name=e&
-      if (this.$store.state.paramFilter.date_before != "") {
-        message +=
-          "date before " + this.$store.state.paramFilter.date_before + "; ";
-      }
-      if (this.$store.state.paramFilter.date_after != "") {
-        message +=
-          "date after " + this.$store.state.paramFilter.date_after + "; ";
-      }
-      if (this.$store.state.paramFilter.name != "") {
-        message += "name includes " + this.$store.state.paramFilter.name + "; ";
-      }
-      if (this.$store.state.paramFilter.category__name != "") {
-        message +=
-          "category includes " +
-          this.$store.state.paramFilter.category__name +
-          "; ";
-      }
-      */
       if (message != "") {
         message = "Filter: " + message;
       }
@@ -231,6 +259,10 @@ export default {
     },
   },
   methods: {
+    removeExpense(expense_id) {
+      let url = this.$store.state.BASE_API_URL + "expense/" + expense_id;
+      console.log("EXPENSE TO BE REMOVED:", url);
+    },
     onAddExpense: function (value) {
       event.preventDefault();
       var url = this.$store.state.BASE_API_URL + "expense/new";
@@ -353,6 +385,7 @@ export default {
           (el) => (el.categoryName = this.categories[el.category])
         );
         // Must return an array of items or an empty array if an error occurred
+        console.log("ITEMS:", this.items);
         return this.items || [];
       });
     },

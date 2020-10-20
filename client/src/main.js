@@ -20,6 +20,7 @@ const store = new Vuex.Store({
     username: "",
     password: "",
     categories_raw: [],
+    session_expenses: [],
     stats: {},
     message_add_danger: "",
     message_add_success: "",
@@ -34,7 +35,6 @@ const store = new Vuex.Store({
   },
   getters: {
     get_message_add_danger: state => { return state.message_add_danger },
-
     get_message_add_success: state => { return state.message_add_success },
     get_filter_url_suffix: state => {
       var url = "";
@@ -65,12 +65,17 @@ const store = new Vuex.Store({
     },
     stats: state => { return state.stats },
     username: state => { return state.username },
-    password: state => { return state.password }
+    password: state => { return state.password },
+    session_expenses: state => { return state.session_expenses },
+    nb_session_expenses: state => { return state.session_expenses.length }
   },
   mutations: {
+    // this.$store.commit("register_session_expense", expense)
+    register_session_expense(state, expense) {
+      state.session_expenses.push(expense);
+    },
     // this.$store.commit("set_filter", Filter)
     set_filter(state, Filter) {
-      console.log("FILTER--", Filter);
       for (var i in Filter) {
         state.paramFilter[i] = Filter[i];
       }

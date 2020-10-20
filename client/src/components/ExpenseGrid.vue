@@ -3,7 +3,9 @@
     <!--   NAVBAR -->
     <div>
       <b-navbar fixed="top" toggleable="sm" type="dark" variant="secondary">
-        <b-navbar-brand href="#">Expenses</b-navbar-brand>
+        <b-navbar-brand @click="$bvModal.show('bv-modal-Expenses')" href="#"
+          >Expenses</b-navbar-brand
+        >
 
         <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
 
@@ -34,9 +36,28 @@
     </div>
     <!--  NAVBAR END -->
     <div>
+      <!--   ABOUT Modal -->
+      <div>
+        <b-modal id="bv-modal-Expenses" hide-footer>
+          <template #modal-title> About </template>
+          <div class="d-block text-center">
+            <h4>Simple Expense Report</h4>
+            <h5>v.01</h5>
+            <h6>by Karol Lemański, 2020 Oct</h6>
+          </div>
+          <b-button
+            class="mt-3"
+            block
+            @click="$bvModal.hide('bv-modal-Expenses')"
+            >Close</b-button
+          >
+        </b-modal>
+      </div>
+      <!--  ABOUt Modal END -->
       <!--   REPORT -->
       <b-collapse id="report">
-        <b-card class="mb-2" header-tag="header1">
+        <b-card class="mb-2">
+          <!-- header-tag="header1"> -->
           <template #header>
             <h6 class="mb-0">Report</h6>
           </template>
@@ -47,7 +68,8 @@
 
       <!--   ADD EXPENSE  -->
       <b-collapse id="add-expense" class="mb-3">
-        <b-card class="mb-2" header-tag="header2">
+        <b-card class="mb-2">
+          <!-- header-tag="header2"> -->
           <template #header>
             <h6 class="mb-0">Add expense</h6>
           </template>
@@ -224,21 +246,19 @@ export default {
         })
         .then((res) => {
           this.provideStats();
+          this.$store.commit("register_session_expense", res.data);
           //this.$store.dispatch("loadStats");
           this.$store.state.message_add_success = "Expense added successfully";
           this.$store.state.message_add_danger = "";
           this.$refs.report.$refs.report_tab1.refresh();
           this.$refs.report.$refs.report_tab2.refresh();
           this.$refs.ExpenseGrid.refresh();
-          console.log("REFFF", this.$refs);
         })
         .catch((error) => {
           this.$store.state.message_add_success = "";
           this.$store.state.message_add_danger = "Error: " + error;
           console.log(error); //Logs a string: Error: Request failed with status code 404
         });
-
-      console.log("REFS", this.$refs);
     },
     provideStats: function () {
       //return;

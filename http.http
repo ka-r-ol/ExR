@@ -86,7 +86,7 @@ Authorization: Basic Adam Pass4Adam!
 Content-Type: application/json
 
 ###
-GET http://127.0.0.1:8000/api/v1/stats?&cost_min=1000
+GET http://127.0.0.1:8000/api/v1/stats?category__name=Clo
 Authorization: Basic Adam Pass4Adam!
 
 ###

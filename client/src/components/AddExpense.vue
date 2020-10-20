@@ -42,6 +42,7 @@
           <b-col sm="9">
             <b-form-select
               v-model="category_id"
+              size="sm"
               :options="$store.state.categories_raw"
               value-field="id"
               text-field="name"
@@ -68,14 +69,12 @@
     </div>
     <br />
     <!-- BUTTONS -->
-    <div>
-      <b-button size="sm" variant="success" block @click="onSubmit"
-        >Submit</b-button
-      >
-      <b-button size="sm" variant="warning" block v-b-toggle.add-expense
+    <div align="center">
+      <b-button size="sm" variant="success" @click="onSubmit">Submit</b-button>
+      <b-button size="sm" variant="warning" v-b-toggle.add-expense
         >Close</b-button
       >
-      <b-button size="sm" variant="secondary" block @click="onClear"
+      <b-button size="sm" variant="secondary" @click="onClear"
         >Clear Form</b-button
       >
       <br />

@@ -51,6 +51,7 @@ export default {
 
   methods: {
     process: function () {
+      console.log("BASE_API_URL", this.$BASE_API_URL);
       event.preventDefault();
 
       //      var categories = {};

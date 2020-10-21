@@ -89,12 +89,14 @@
       >
       <br />
     </div>
+    <!--
     <div class="text-success">
       {{ $store.state.message_add_success }}
     </div>
     <div class="text-danger">
       {{ $store.state.message_add_danger }}
     </div>
+    -->
     <!-- BUTTONS END -->
     <!--<b-button size="sm" variant="warning" v-b-toggle.filter-sidebar block
       >Toggle Filter</b-button

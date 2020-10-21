@@ -53,7 +53,7 @@
           >
         </b-modal>
       </div>
-      <!--  ABOUt Modal END -->
+      <!--  ABOUT Modal END -->
       <!--   REPORT -->
       <b-collapse id="report">
         <b-card class="mb-2">
@@ -94,6 +94,7 @@
       </b-sidebar>
       <!--   FILTR END -->
 
+      <!-- PAGINATION -->
       <b-pagination
         align="right"
         v-model="currentPage"
@@ -101,6 +102,7 @@
         :per-page="perPage"
         aria-controls="my-table"
       ></b-pagination>
+      <!-- PAGINATION END -->
 
       <!--    ITEMS PER PAGE -->
       <div class="mb-3" align="right">
@@ -114,9 +116,21 @@
       </div>
       <!--    ITEMS PER PAGE END -->
 
-      <div class="mb-3" align="right">
-        {{ messageFiltered }}
-      </div>
+      <!--  AXIOS MSG SUCCESS/ FAILURE MODAL END -->
+
+      <b-modal ref="axiosMsgModal" hide-footer :title="axiosStatusMsgTitle">
+        <div class="d-block text-center">
+          <h3>{{ axiosContentMsg }}</h3>
+        </div>
+        <b-button
+          class="mt-3"
+          variant="outline-success"
+          block
+          @click="hideAxiosMsgModal"
+          >Close
+        </b-button>
+      </b-modal>
+      <!-- AXIOS MSG SUCCESS/ FAILURE MODAL END -->
 
       <!--    Expense LIST -->
       <b-table
@@ -214,16 +228,69 @@
         </template>
         <!-- -->
       </b-table>
-      <!-- Delete modal -->
+      <!------ Delete Expense modal -->
+      <!--        @ok="executeDeleteModal" 
+        @hide="resetDeleteModal" -->
       <b-modal
         :id="deleteModal.id"
         :title="deleteModal.title"
+        ref="deleteModal"
         @hide="resetDeleteModal"
-        @ok="executeDeleteModal"
+        @ok="executeDeleteModal(deleteModal.id)"
       >
-        <pre>{{ deleteModal.content }}</pre>
+        <div align="center">
+          <pre>{{ deleteModal.content }}</pre>
+        </div>
       </b-modal>
-      <!-- Delete modal end -->
+      <!--
+      <b-modal
+        ref="deleteModal"
+        :id="deleteModal.id"
+        §hide-footer
+        :title="deleteModal.title"
+      >
+        <div class="d-block text-center">
+          <pre>{{ deleteModal.content }}</pre>
+        </div>
+        <b-button
+          class="mt-3"
+          variant="outline-success"
+          block
+          @click="executeDeleteModal"
+          >OK
+        </b-button>
+        <b-button
+          class="mt-3"
+          variant="outline-danger"
+          block
+          @click="resetDeleteModal"
+          >Cancel
+        </b-button>
+      </b-modal> -->
+      <!--
+      <b-modal hide-footer :id="deleteModal.id" :title="deleteModal.title">
+        <div class="d-block text-center">
+          <pre>{{ deleteModal.content }}</pre>
+        </div>
+        <div align="center">
+          <b-button
+            align="right"
+            class="mt-3"
+            variant="outline-success"
+            @click="executeDeleteModal"
+            >OK
+          </b-button>
+          <b-button
+            align="right"
+            class="mt-3"
+            variant="outline-danger"
+            @click="resetDeleteModal"
+            >Cancel
+          </b-button>
+        </div>
+      </b-modal> -->
+
+      <!------ Delete Expense modal end -->
       <!--    Expense LIST END -->
     </div>
     <div align="center">
@@ -257,6 +324,8 @@ export default {
   },
   data() {
     return {
+      axiosContentMsg: "axiosContentMsg",
+      axiosStatusMsgTitle: "axiosStatusMsgTitle",
       deleteModal: {
         id: "delete-modal",
         title: "",
@@ -342,6 +411,15 @@ export default {
     },
   },
   methods: {
+    showAxiosMsgModal(axiosStatusMsgTitle, axiosContentMsg) {
+      this.axiosContentMsg = axiosContentMsg;
+      this.axiosStatusMsgTitle = axiosStatusMsgTitle;
+      console.log("showAxiosMsgMoal");
+      this.$refs["axiosMsgModal"].show();
+    },
+    hideAxiosMsgModal() {
+      this.$refs["axiosMsgModal"].hide();
+    },
     delete_modal(item, index, button) {
       this.deleteModal.title = `Expense ID: ${index}`;
       this.deleteModal.item = item;
@@ -357,12 +435,16 @@ export default {
       this.$root.$emit("bv::show::modal", this.deleteModal.id, button);
     },
     resetDeleteModal() {
+      //event.preventDefault();
+      this.$refs["deleteModal"].hide();
       this.deleteModal.title = "";
       this.deleteModal.content = "";
       this.deleteModal.item = null;
     },
-    executeDeleteModal(event) {
+    executeDeleteModal(id) {
       //event.preventDefault();
+      //this.$refs["deleteModal"].hide();
+      this.$bvModal.hide(id);
       console.log("executeDeleteModal", this.deleteModal);
       this.removeExpense(this.deleteModal.item);
     },
@@ -379,6 +461,8 @@ export default {
           },
         })
         .then((res) => {
+          console.log("FUFUFUF");
+          //this.showAxiosMsgModal("Success", "Expense deleted");
           this.provideStats();
           this.$store.commit("register_delete_session_expense", item);
           //this.$store.dispatch("loadStats");
@@ -387,6 +471,7 @@ export default {
           this.$refs.ExpenseGrid.refresh();
         })
         .catch((error) => {
+          //this.showAxiosMsgModal("Deletion failure", error);
           console.log(error); //Logs a string: Error: Request failed with status code 404
         });
     },
@@ -405,6 +490,7 @@ export default {
           },
         })
         .then((res) => {
+          this.showAxiosMsgModal("Success", "Expense updated");
           this.provideStats();
           this.$store.commit("register_patch_session_expense", res.data);
           //this.$store.dispatch("loadStats");
@@ -416,6 +502,8 @@ export default {
           this.$refs.ExpenseGrid.refresh();
         })
         .catch((error) => {
+          this.showAxiosMsgModal("Update failure", error);
+
           this.$store.state.message_add_success = "";
           this.$store.state.message_add_danger = error;
           console.log(error); //Logs a string: Error: Request failed with status code 404
@@ -435,6 +523,8 @@ export default {
           },
         })
         .then((res) => {
+          this.showAxiosMsgModal("Success", "Expense added");
+
           this.provideStats();
           this.$store.commit("register_add_session_expense", res.data);
           //this.$store.dispatch("loadStats");
@@ -445,6 +535,8 @@ export default {
           this.$refs.ExpenseGrid.refresh();
         })
         .catch((error) => {
+          this.showAxiosMsgModal("Failure", error);
+
           this.$store.state.message_add_success = "";
           this.$store.state.message_add_danger = "Error: " + error;
           console.log(error); //Logs a string: Error: Request failed with status code 404

@@ -80,7 +80,7 @@ export default {
       //this.$store.dispatch("loadStats");
       var it = [{ categories: "Number" }, { categories: "Total Cost" }];
       for (let i in this.$store.state.stats) {
-        console.log(i, i.number, i.cost);
+        //console.log(i, i.number, i.cost);
         it[0][i] = this.$store.state.stats[i]["number"];
         it[1][i] = this.$store.state.stats[i]["cost"];
       }

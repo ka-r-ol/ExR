@@ -123,7 +123,7 @@ export default {
   computed: {},
   methods: {
     onSubmit: function () {
-      console.log("THIS ITEM", this.item, this.operation);
+      //console.log("THIS ITEM", this.item, this.operation);
       if (this.operation == "Add") {
         this.onAdd();
       }
@@ -132,15 +132,6 @@ export default {
       }
     },
     onUpdate: function () {
-      console.log(
-        "Placeholder onUpdate",
-        this.id,
-        this.name,
-        this.cost,
-        this.date,
-        this.category_id,
-        this.$store.state.user_id
-      );
       this.$emit("clicked", {
         data: {
           id: this.id,
@@ -166,10 +157,6 @@ export default {
       });
     },
     onClear: function () {
-      console.log(
-        "CAtegories_raw from store",
-        this.$store.state.categories_raw
-      );
       this.cost = 0;
       this.date = new Date().toLocaleDateString("sv"); //trick: Sweden locale uses the ISO 8601 format
       this.name = "";

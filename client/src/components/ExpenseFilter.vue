@@ -172,7 +172,7 @@ export default {
       // }
 
       this.$store.commit("set_filter", this.editFilter);
-      console.log("--paramFILTER--", this.$store.state.paramFilter);
+      //console.log("--paramFILTER--", this.$store.state.paramFilter);
       this.$emit("clicked", {
         //paramFilter: this.paramFilter,
       });

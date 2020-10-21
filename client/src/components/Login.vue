@@ -51,7 +51,6 @@ export default {
 
   methods: {
     process: function () {
-      console.log("BASE_API_URL", this.$BASE_API_URL);
       event.preventDefault();
 
       //      var categories = {};
@@ -68,7 +67,7 @@ export default {
         .then((res) => {
           //this.$store.state.user_id = res.data.id;
           this.$store.commit("set_user_id", res.data.id);
-          console.log("USER_ID LOGIN", this.$store.state.user_id);
+          //console.log("USER_ID LOGIN", this.$store.state.user_id);
         })
         .catch((error) => {
           this.loginmsg = "Access denied. " + error;

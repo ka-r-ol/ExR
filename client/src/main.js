@@ -86,7 +86,7 @@ const store = new Vuex.Store({
       expense.action = "Delete";
       expense.timestamp = (new Date()).toLocaleString();
       state.session_expenses.push(expense);
-      console.log("DELETE", getter.nb_session_expenses, state.session_expenses);
+      //console.log("DELETE", getter.nb_session_expenses, state.session_expenses);
     },
     // this.$store.commit("set_filter", Filter)
     set_filter(state, Filter) {
@@ -114,7 +114,7 @@ const store = new Vuex.Store({
   actions: {
     loadStats({ commit, state, getters }) {
       // https://dev.to/ljnce/how-to-call-api-from-axios-in-vuex-store-2m3g
-      console.log("PASS&USER", state.username, state.password)
+      //console.log("PASS&USER", state.username, state.password)
       let url = state.BASE_API_URL + "stats";
       if (getters.get_filter_url_suffix != "") {
         url += "?" + getters.get_filter_url_suffix.slice(1);
@@ -128,7 +128,7 @@ const store = new Vuex.Store({
         })
         .then(res => res.data)
         .then(stats => {
-          console.log(stats);
+          //console.log(stats);
           commit('set_stats', stats)
         })
     }

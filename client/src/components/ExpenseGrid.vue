@@ -414,7 +414,7 @@ export default {
     showAxiosMsgModal(axiosStatusMsgTitle, axiosContentMsg) {
       this.axiosContentMsg = axiosContentMsg;
       this.axiosStatusMsgTitle = axiosStatusMsgTitle;
-      console.log("showAxiosMsgMoal");
+      //console.log("showAxiosMsgMoal");
       this.$refs["axiosMsgModal"].show();
     },
     hideAxiosMsgModal() {
@@ -445,7 +445,7 @@ export default {
       //event.preventDefault();
       //this.$refs["deleteModal"].hide();
       this.$bvModal.hide(id);
-      console.log("executeDeleteModal", this.deleteModal);
+      //console.log("executeDeleteModal", this.deleteModal);
       this.removeExpense(this.deleteModal.item);
     },
     removeExpense(item) {
@@ -461,7 +461,6 @@ export default {
           },
         })
         .then((res) => {
-          console.log("FUFUFUF");
           //this.showAxiosMsgModal("Success", "Expense deleted");
           this.provideStats();
           this.$store.commit("register_delete_session_expense", item);
@@ -478,7 +477,7 @@ export default {
     onUpdateExpense: function (value) {
       event.preventDefault();
       var url = this.$store.state.BASE_API_URL + "expense/" + value.data.id;
-      console.log("Placeholder onUpdateExpense", value, url);
+      //console.log("Placeholder onUpdateExpense", value, url);
       axios
         .patch(url, value.data, {
           auth: {
@@ -617,7 +616,7 @@ export default {
         offset;
       url_expenses += this.$store.getters.get_filter_url_suffix;
 
-      console.log("URL_EXPENSES", url_expenses);
+      //console.log("URL_EXPENSES", url_expenses);
       const promise = axios.get(url_expenses, {
         auth: {
           username: this.$store.state.username,
@@ -635,7 +634,7 @@ export default {
           (el) => (el.categoryName = this.categories[el.category])
         );
         // Must return an array of items or an empty array if an error occurred
-        console.log("ITEMS:", this.items);
+        //console.log("ITEMS:", this.items);
         return this.items || [];
       });
     },

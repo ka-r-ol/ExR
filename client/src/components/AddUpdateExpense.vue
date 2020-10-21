@@ -21,11 +21,11 @@
         <!-- NAME -->
         <b-row class="my-1">
           <b-col sm="3">
-            <label for="name-1">Name:</label>
+            <label for="name-2">Name:</label>
           </b-col>
           <b-col sm="9">
             <b-form-input
-              id="name-1"
+              id="name-2"
               size="sm"
               v-model="name"
               type="text"
@@ -61,7 +61,7 @@
               size="sm"
               v-model="cost"
               type="number"
-              placeholder="currency"
+              placeholder=""
             ></b-form-input>
           </b-col>
         </b-row>
@@ -70,11 +70,21 @@
     <br />
     <!-- BUTTONS -->
     <div align="center">
-      <b-button size="sm" variant="success" @click="onSubmit">Submit</b-button>
-      <b-button size="sm" variant="warning" v-b-toggle.add-expense
+      <b-button size="sm" variant="success" @click="onSubmit">{{
+        operation
+      }}</b-button>
+      <b-button
+        v-if="operation == 'Add'"
+        size="sm"
+        variant="warning"
+        v-b-toggle.add-expense
         >Close</b-button
       >
-      <b-button size="sm" variant="secondary" @click="onClear"
+      <b-button
+        size="sm"
+        v-if="operation == 'Add'"
+        variant="secondary"
+        @click="onClear"
         >Clear Form</b-button
       >
       <br />
@@ -96,20 +106,53 @@
 import axios from "axios";
 
 export default {
-  props: [],
+  props: ["operation", "item"],
   data() {
     return {
-      date: new Date().toLocaleDateString("sv"), //trick: Sweden locale uses the ISO 8601 format
-      name: "",
-      category_id: "",
-      cost: "",
+      id: this.item.id ? this.item.id : 0,
+      date: this.item.date
+        ? this.item.date
+        : new Date().toLocaleDateString("sv"), //trick: Sweden locale uses the ISO 8601 format
+      name: this.item.name ? this.item.name : "",
+      category_id: this.item.category_id ? this.item.category_id : "",
+      cost: this.item.cost ? this.item.cost : "",
     };
   },
   computed: {},
   methods: {
     onSubmit: function () {
+      console.log("THIS ITEM", this.item, this.operation);
+      if (this.operation == "Add") {
+        this.onAdd();
+      }
+      if (this.operation == "Update") {
+        this.onUpdate();
+      }
+    },
+    onUpdate: function () {
+      console.log(
+        "Placeholder onUpdate",
+        this.id,
+        this.name,
+        this.cost,
+        this.date,
+        this.category_id,
+        this.$store.state.user_id
+      );
+      this.$emit("clicked", {
+        data: {
+          id: this.id,
+          name: this.name,
+          cost: this.cost,
+          date: this.date,
+          category: this.category_id,
+          owner: this.$store.state.user_id,
+        },
+      });
+    },
+    onAdd: function () {
       //this.paramFilter = this.editFilter;
-      console.log("PACZKA", this.date, this.name, this.category_id, this.cost);
+      //console.log("PACZKA", this.date, this.name, this.category_id, this.cost);
       this.$emit("clicked", {
         data: {
           name: this.name,

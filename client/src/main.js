@@ -70,7 +70,13 @@ const store = new Vuex.Store({
     nb_session_expenses: state => { return state.session_expenses.length }
   },
   mutations: {
-    // this.$store.commit("register_session_expense", expense)
+    // this.$store.commit("register_patch_session_expense", expense)
+    register_patch_session_expense(state, expense) {
+      expense.action = "Update";
+      expense.timestamp = (new Date()).toLocaleString();
+      state.session_expenses.push(expense);
+    },
+    // this.$store.commit("register_add_session_expense", expense)
     register_add_session_expense(state, expense) {
       expense.action = "Add";
       expense.timestamp = (new Date()).toLocaleString();

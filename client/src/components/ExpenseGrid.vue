@@ -73,7 +73,11 @@
           <template #header>
             <h6 class="mb-0">Add expense</h6>
           </template>
-          <AddExpense @clicked="onAddExpense" />
+          <AddUpdateExpense
+            :operation="'Add'"
+            :item="{ id: '', date: '', name: '', cost: '', category_id: '' }"
+            @clicked="onAddExpense"
+          />
         </b-card>
       </b-collapse>
       <!--   ADD EXPENSE END -->
@@ -130,6 +134,10 @@
             <b-icon
               class="mr-3"
               @click="delete_modal(row.item, row.item.id, $event.target)"
+              v-b-popover.hover.topleft="{
+                variant: 'danger',
+                content: 'Delete expense',
+              }"
               icon="trash"
               font-scale="1"
             ></b-icon>
@@ -140,6 +148,10 @@
           <div align="right">
             <b-icon
               icon="pencil-square"
+              v-b-popover.hover.topleft="{
+                variant: 'info',
+                content: 'Update expense',
+              }"
               @click="row.toggleDetails"
               font-scale="1"
             ></b-icon>
@@ -160,6 +172,26 @@
         </template>
         <!-- -->
         <template #row-details="row">
+          <!-- <b-collapse id="update-expense-1" class="mb-3"> -->
+          <b-card class="mb-2">
+            <!-- header-tag="header2"> -->
+            <template #header>
+              <h6 class="mb-0">Update expense</h6>
+            </template>
+            <AddUpdateExpense
+              :operation="'Update'"
+              :item="{
+                id: row.item.id,
+                date: row.item.date,
+                name: row.item.name,
+                cost: row.item.cost,
+                category_id: row.item.category,
+              }"
+              @clicked="onUpdateExpense"
+            />
+          </b-card>
+          <!--          </b-collapse> -->
+          <!--
           <b-card>
             <b-button
               variant="danger"
@@ -178,6 +210,7 @@
               Cancel
             </b-button>
           </b-card>
+          -->
         </template>
         <!-- -->
       </b-table>
@@ -213,12 +246,12 @@
 //import { BASE_API_URL, LoadCategories } from "../settings";
 import axios from "axios";
 import ExpenseFilter from "./ExpenseFilter.vue";
-import AddExpense from "./AddExpense.vue";
+import AddUpdateExpense from "./AddUpdateExpense.vue";
 import Report from "./Report.vue";
 
 export default {
   props: [],
-  components: { ExpenseFilter, AddExpense, Report },
+  components: { ExpenseFilter, AddUpdateExpense, Report },
   mounted() {
     this.$store.dispatch("loadStats");
   },
@@ -354,6 +387,37 @@ export default {
           this.$refs.ExpenseGrid.refresh();
         })
         .catch((error) => {
+          console.log(error); //Logs a string: Error: Request failed with status code 404
+        });
+    },
+    onUpdateExpense: function (value) {
+      event.preventDefault();
+      var url = this.$store.state.BASE_API_URL + "expense/" + value.data.id;
+      console.log("Placeholder onUpdateExpense", value, url);
+      axios
+        .patch(url, value.data, {
+          auth: {
+            username: this.$store.state.username,
+            password: this.$store.state.password,
+          },
+          headers: {
+            "Content-Type": "application/json",
+          },
+        })
+        .then((res) => {
+          this.provideStats();
+          this.$store.commit("register_patch_session_expense", res.data);
+          //this.$store.dispatch("loadStats");
+          this.$store.state.message_add_success =
+            "Expense patched successfully";
+          this.$store.state.message_add_danger = "";
+          this.$refs.report.$refs.report_tab1.refresh();
+          this.$refs.report.$refs.report_tab2.refresh();
+          this.$refs.ExpenseGrid.refresh();
+        })
+        .catch((error) => {
+          this.$store.state.message_add_success = "";
+          this.$store.state.message_add_danger = error;
           console.log(error); //Logs a string: Error: Request failed with status code 404
         });
     },

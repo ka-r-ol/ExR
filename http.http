@@ -51,11 +51,29 @@ Content-Type: application/json
 
     {
       "name": "Purchase of Personal - ADAM#3",
+      "cost": "899.00",
+      "date": "2020-11-01",
+      "owner": 2,
+      "category": 103 
+    }
+
+###
+PATCH http://127.0.0.1:8000/api/v1/expense/3472
+Authorization: Basic Adam Pass4Adam!
+Content-Type: application/json
+
+    {
+      "name": "DPurchase of Personal - ADAM#3",
       "cost": "999.00",
       "date": "2020-11-01",
       "owner": 2,
       "category": 103 
     }
+
+###
+GET  http://127.0.0.1:8000/api/v1/expense/3472
+Authorization: Basic Adam Pass4Adam!
+Content-Type: application/jso
 
 ###
 GET http://127.0.0.1:8000/api/v1/expenses?name=Adam

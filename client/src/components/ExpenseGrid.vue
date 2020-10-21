@@ -125,17 +125,38 @@
         :hover="true"
         small
       >
-        <template #cell(actions)="row">
+        <template #cell(actionDelete)="row">
           <div align="right">
             <b-icon
+              class="mr-3"
+              @click="delete_modal(row.item, row.item.id, $event.target)"
               icon="trash"
+              font-scale="1"
+            ></b-icon>
+          </div>
+        </template>
+        >
+        <template #cell(actionUpdate)="row">
+          <div align="right">
+            <b-icon
+              icon="pencil-square"
               @click="row.toggleDetails"
               font-scale="1"
             ></b-icon>
           </div>
-          <!--    <b-button size="sm" @click="row.toggleDetails" class="mr-2">
-            {{ row.detailsShowing ? "Hide" : "Show" }} Details
-          </b-button> -->
+        </template>
+        <!-- -->
+        <template #row-details="row">
+          <b-card>
+            <b-button
+              variant="warning"
+              size="sm"
+              block
+              @click="row.toggleDetails"
+            >
+              Cancel Update
+            </b-button>
+          </b-card>
         </template>
         <!-- -->
         <template #row-details="row">
@@ -144,7 +165,7 @@
               variant="danger"
               size="sm"
               block
-              @click="removeExpense(row.item.id)"
+              @click="removeExpense(row.item)"
               >Click to remove the above expense (id:{{ row.item.id }}) from
               database</b-button
             >
@@ -160,6 +181,16 @@
         </template>
         <!-- -->
       </b-table>
+      <!-- Delete modal -->
+      <b-modal
+        :id="deleteModal.id"
+        :title="deleteModal.title"
+        @hide="resetDeleteModal"
+        @ok="executeDeleteModal"
+      >
+        <pre>{{ deleteModal.content }}</pre>
+      </b-modal>
+      <!-- Delete modal end -->
       <!--    Expense LIST END -->
     </div>
     <div align="center">
@@ -193,6 +224,12 @@ export default {
   },
   data() {
     return {
+      deleteModal: {
+        id: "delete-modal",
+        title: "",
+        content: "",
+        item: null,
+      },
       backdrop: true,
       currentPage: 1,
       count: 0,
@@ -204,6 +241,11 @@ export default {
       // https://bootstrap-vue.org/docs/components/table#using-items-provider-functions
       fields: [
         {
+          key: "id",
+          sortable: false,
+          class: "small",
+        },
+        {
           key: "date",
           sortable: false,
           class: "small",
@@ -211,24 +253,32 @@ export default {
         {
           key: "name",
           label: "Expense name",
+          class: "small",
         },
         {
           key: "categoryName",
           label: "Category",
+          class: "small",
           //sortable: true,
           //variant: "info",
         },
         {
           key: "cost",
           //sortable: true,
-          class: "text-right",
+          class: "small text-right",
           //variant: "danger",
         },
-        ,
         {
-          key: "actions",
+          key: "actionDelete",
           class: "text-right",
-          label: "Del",
+          label: "",
+          class: "small",
+        },
+        {
+          key: "actionUpdate",
+          class: "text-right",
+          label: "",
+          class: "small",
         },
       ],
     };
@@ -259,9 +309,53 @@ export default {
     },
   },
   methods: {
-    removeExpense(expense_id) {
-      let url = this.$store.state.BASE_API_URL + "expense/" + expense_id;
-      console.log("EXPENSE TO BE REMOVED:", url);
+    delete_modal(item, index, button) {
+      this.deleteModal.title = `Expense ID: ${index}`;
+      this.deleteModal.item = item;
+      this.deleteModal.content =
+        "Expense name: " +
+        item.name +
+        "\nCategory: " +
+        item.categoryName +
+        "\nCost: " +
+        item.cost +
+        "\n\nDelete?";
+      //JSON.stringify(item, null, 2);
+      this.$root.$emit("bv::show::modal", this.deleteModal.id, button);
+    },
+    resetDeleteModal() {
+      this.deleteModal.title = "";
+      this.deleteModal.content = "";
+      this.deleteModal.item = null;
+    },
+    executeDeleteModal(event) {
+      //event.preventDefault();
+      console.log("executeDeleteModal", this.deleteModal);
+      this.removeExpense(this.deleteModal.item);
+    },
+    removeExpense(item) {
+      let url = this.$store.state.BASE_API_URL + "expense/" + item.id;
+      axios
+        .delete(url, {
+          auth: {
+            username: this.$store.state.username,
+            password: this.$store.state.password,
+          },
+          headers: {
+            "Content-Type": "application/json",
+          },
+        })
+        .then((res) => {
+          this.provideStats();
+          this.$store.commit("register_delete_session_expense", item);
+          //this.$store.dispatch("loadStats");
+          this.$refs.report.$refs.report_tab1.refresh();
+          this.$refs.report.$refs.report_tab2.refresh();
+          this.$refs.ExpenseGrid.refresh();
+        })
+        .catch((error) => {
+          console.log(error); //Logs a string: Error: Request failed with status code 404
+        });
     },
     onAddExpense: function (value) {
       event.preventDefault();
@@ -278,7 +372,7 @@ export default {
         })
         .then((res) => {
           this.provideStats();
-          this.$store.commit("register_session_expense", res.data);
+          this.$store.commit("register_add_session_expense", res.data);
           //this.$store.dispatch("loadStats");
           this.$store.state.message_add_success = "Expense added successfully";
           this.$store.state.message_add_danger = "";

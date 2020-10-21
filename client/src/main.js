@@ -71,8 +71,16 @@ const store = new Vuex.Store({
   },
   mutations: {
     // this.$store.commit("register_session_expense", expense)
-    register_session_expense(state, expense) {
+    register_add_session_expense(state, expense) {
+      expense.action = "Add";
+      expense.timestamp = (new Date()).toLocaleString();
       state.session_expenses.push(expense);
+    },
+    register_delete_session_expense(state, expense) {
+      expense.action = "Delete";
+      expense.timestamp = (new Date()).toLocaleString();
+      state.session_expenses.push(expense);
+      console.log("DELETE", getter.nb_session_expenses, state.session_expenses);
     },
     // this.$store.commit("set_filter", Filter)
     set_filter(state, Filter) {

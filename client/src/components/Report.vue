@@ -37,9 +37,7 @@
       small
       caption-top
     >
-      <template #table-caption
-        >Expenses added during the session:</template
-      ></b-table
+      <template #table-caption>Session log:</template></b-table
     >
     <!-- BUTTONS -->
     <div align="center">
@@ -57,10 +55,13 @@ export default {
   data() {
     return {
       session_expense_fields: [
+        { key: "id", class: "small" },
+        { key: "action", class: "small" },
+        { key: "timestamp", class: "small" },
         { key: "date", class: "small" },
-        { key: "name", label: "Expense name" },
-        { key: "categoryName", label: "Category" },
-        { key: "cost", class: "text-right" },
+        { key: "name", label: "Expense name", class: "small" },
+        { key: "categoryName", label: "Category", class: "small" },
+        { key: "cost", class: "text-right", class: "small" },
       ],
     };
   },

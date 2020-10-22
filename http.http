@@ -104,7 +104,7 @@ Authorization: Basic Adam Pass4Adam!
 Content-Type: application/json
 
 ###
-GET http://127.0.0.1:8000/api/v1/stats?category__name=Clo
+GET http://127.0.0.1:8000/api/v1/stats
 Authorization: Basic Adam Pass4Adam!
 
 ###
@@ -113,7 +113,11 @@ Authorization: Basic Eve Pass4Eve!
 
 
 ###
-GET http://127.0.0.1:8000/api/v1/expenses?limit=20&offset=0&cost_min=50&cost_max=150&date_before=2020-10-15&name=F&category__name=R
+GET http://127.0.0.1:8000/api/v1/stats
+Authorization: Basic Eve Pass4Eve!
+
+###
+GET http://127.0.0.1:8000/api/v1/expenses
 Authorization: Basic Eve Pass4Eve!
 
 

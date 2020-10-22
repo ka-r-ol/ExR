@@ -22,6 +22,7 @@ const store = new Vuex.Store({
     categories_raw: [],
     session_expenses: [],
     stats: {},
+    statsLoaded: false,
     message_add_danger: "",
     message_add_success: "",
     paramFilter: {
@@ -34,6 +35,7 @@ const store = new Vuex.Store({
     }
   },
   getters: {
+    get_statsLoad_status: state => { return state.statsLoaded },
     get_message_add_danger: state => { return state.message_add_danger },
     get_message_add_success: state => { return state.message_add_success },
     get_filter_url_suffix: state => {
@@ -70,6 +72,9 @@ const store = new Vuex.Store({
     nb_session_expenses: state => { return state.session_expenses.length }
   },
   mutations: {
+    set_statsLoad_status(state, status) {
+      state.statsLoaded = status;
+    },
     // this.$store.commit("register_patch_session_expense", expense)
     register_patch_session_expense(state, expense) {
       expense.action = "Update";
@@ -119,6 +124,7 @@ const store = new Vuex.Store({
       if (getters.get_filter_url_suffix != "") {
         url += "?" + getters.get_filter_url_suffix.slice(1);
       }
+      commit('set_statsLoad_status', false)
       axios
         .get(url, {
           auth: {
@@ -129,6 +135,8 @@ const store = new Vuex.Store({
         .then(res => res.data)
         .then(stats => {
           //console.log(stats);
+
+          commit('set_statsLoad_status', true)
           commit('set_stats', stats)
         })
     }

@@ -37,6 +37,22 @@ export default {
         username: "",
         password: "",
       });
+      this.$store.commit("set_statsLoad_status", false);
+      this.$store.commit("set_filter", {
+        cost_min: "",
+        cost_max: "",
+        date_before: "",
+        date_after: "",
+        name: "",
+        category__name: "",
+      });
+      this.$store.commit("set_user_id", 0);
+      this.$store.commit("set_categories", []);
+      this.$store.commit("set_stats", {});
+
+      this.$store.state.session_expenses = [];
+      this.$store.state.message_add_danger = "";
+      this.$store.state.message_add_success = "";
     },
   },
 };

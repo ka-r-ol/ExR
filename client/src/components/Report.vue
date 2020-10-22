@@ -1,44 +1,41 @@
 
         <template>
   <div>
-    <b-table
-      table-variant="secondary"
-      ref="report_tab1"
-      responsive
-      id="report-table"
-      :items="items"
-      small
-      caption-top
-    >
-      <template #table-caption
-        >Filtered expenses sub-totals by category:</template
-      ></b-table
-    >
+    <div v-if="!$store.getters.get_statsLoad_status" class="text-center mb-3">
+      <p>LOADING</p>
+      <b-spinner
+        style="width: 3rem; height: 3rem"
+        wariant="primary"
+      ></b-spinner>
+    </div>
+    <div v-show="$store.getters.get_statsLoad_status">
+      <b-table
+        table-variant="secondary"
+        ref="report_tab1"
+        responsive
+        id="report-table"
+        :items="items"
+        small
+        caption-top
+      >
+        <template #table-caption
+          >Filtered expenses sub-totals by category:</template
+        ></b-table
+      >
 
-    <b-table
-      table-variant="secondary"
-      ref="report_tab2"
-      responsive
-      id="report-table"
-      :items="totals"
-      small
-      caption-top
-    >
-      <template #table-caption>Filtered totals:</template></b-table
-    >
-    <b-table
-      v-if="$store.getters.nb_session_expenses > 0"
-      table-variant="info"
-      ref="report_tab2"
-      responsive
-      id="report-table"
-      :items="session_expenses"
-      :fields="session_expense_fields"
-      small
-      caption-top
-    >
-      <template #table-caption>Session log:</template></b-table
-    >
+      <b-table
+        table-variant="secondary"
+        ref="report_tab2"
+        responsive
+        id="report-table"
+        :items="totals"
+        small
+        caption-top
+      >
+        <template #table-caption>Filtered totals:</template></b-table
+      >
+    </div>
+
     <!-- BUTTONS -->
     <div align="center">
       <b-button size="sm" variant="warning" v-b-toggle.report>Close</b-button>
@@ -53,17 +50,7 @@
 
 export default {
   data() {
-    return {
-      session_expense_fields: [
-        { key: "id", class: "small" },
-        { key: "action", class: "small" },
-        { key: "timestamp", class: "small" },
-        { key: "date", class: "small" },
-        { key: "name", label: "Expense name", class: "small" },
-        { key: "categoryName", label: "Category", class: "small" },
-        { key: "cost", class: "text-right", class: "small" },
-      ],
-    };
+    return {};
   },
   mounted() {
     this.$store.dispatch("loadStats");
@@ -94,13 +81,6 @@ export default {
         it[0]["Total cost"] += this.$store.state.stats[i]["cost"];
       }
       return it;
-    },
-    session_expenses() {
-      var it = [];
-      this.$store.state.session_expenses.forEach((el) => {
-        el.categoryName = this.categories[el.category];
-      });
-      return this.$store.getters.session_expenses;
     },
   },
 };

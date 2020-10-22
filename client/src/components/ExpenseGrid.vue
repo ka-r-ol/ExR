@@ -13,6 +13,8 @@
           <b-navbar-nav>
             <b-nav-item href="#" v-b-toggle.filter-sidebar>Filter</b-nav-item>
             <b-nav-item href="#" v-b-toggle.report>Report</b-nav-item>
+            <b-nav-item href="#" v-b-toggle.log>Log</b-nav-item>
+
             <b-nav-item href="#" v-b-toggle.add-expense>Add</b-nav-item>
           </b-navbar-nav>
 
@@ -65,6 +67,18 @@
         </b-card>
       </b-collapse>
       <!--   REPORT END -->
+
+      <!--   LOG -->
+      <b-collapse id="log">
+        <b-card class="mb-2">
+          <!-- header-tag="header1"> -->
+          <template #header>
+            <h6 class="mb-0">Session log</h6>
+          </template>
+          <Log ref="log" />
+        </b-card>
+      </b-collapse>
+      <!--   LOG END -->
 
       <!--   ADD EXPENSE  -->
       <b-collapse id="add-expense" class="mb-3">
@@ -293,19 +307,6 @@
       <!------ Delete Expense modal end -->
       <!--    Expense LIST END -->
     </div>
-    <div align="center">
-      <b-icon icon="camera" font-scale="1"></b-icon>
-      <b-icon icon="camera" font-scale="2"></b-icon>
-      <b-icon icon="camera" font-scale="3"></b-icon>
-      <b-icon icon="camera" font-scale="4"></b-icon>
-      <b-icon icon="camera" font-scale="5.5"></b-icon>
-      <b-icon icon="camera" font-scale="7.5"></b-icon>
-      <b-icon icon="camera" font-scale="5.5"></b-icon>
-      <b-icon icon="camera" font-scale="4"></b-icon>
-      <b-icon icon="camera" font-scale="3"></b-icon>
-      <b-icon icon="camera" font-scale="2"></b-icon>
-      <b-icon icon="camera" font-scale="1"></b-icon>
-    </div>
   </div>
 </template>
 
@@ -315,10 +316,11 @@ import axios from "axios";
 import ExpenseFilter from "./ExpenseFilter.vue";
 import AddUpdateExpense from "./AddUpdateExpense.vue";
 import Report from "./Report.vue";
+import Log from "./Log.vue";
 
 export default {
   props: [],
-  components: { ExpenseFilter, AddUpdateExpense, Report },
+  components: { ExpenseFilter, AddUpdateExpense, Report, Log },
   mounted() {
     this.$store.dispatch("loadStats");
   },
@@ -489,7 +491,7 @@ export default {
           },
         })
         .then((res) => {
-          this.showAxiosMsgModal("Success", "Expense updated");
+          //this.showAxiosMsgModal("Success", "Expense updated");
           this.provideStats();
           this.$store.commit("register_patch_session_expense", res.data);
           //this.$store.dispatch("loadStats");

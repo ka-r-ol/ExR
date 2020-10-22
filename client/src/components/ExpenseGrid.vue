@@ -145,7 +145,9 @@
         </b-button>
       </b-modal>
       <!-- AXIOS MSG SUCCESS/ FAILURE MODAL END -->
-
+      <div class="mb-3" align="right">
+        {{ messageFiltered }}
+      </div>
       <!--    Expense LIST -->
       <b-table
         id="my-table"

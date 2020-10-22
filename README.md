@@ -76,7 +76,7 @@ curl -u Eve:Pass4Eve! http://localhost:8000/api/v1/categories | python -m json.t
 
 curl -u Eve:Pass4Eve! http://127.0.0.1:8000/api/v1/expenses | python -m json.tool
 
-curl -u Eve:Pass4Eve! "http://127.0.0.1:8000/api/v1/expenses?cost_max=1000&cost_min=990" | python -m json.tool
+curl -u Eve:Pass4Eve! "http://127.0.0.1:8000/api/v1/expenses?cost_max=150&cost_min=50" | python -m json.tool
 
 ```
 

@@ -19,7 +19,7 @@ UserID | Password
 Eve | Pass4Eve!
 Adam | Pass4Adam!
 
-# Content:
+# <a name="CONTENT">Content:<a>
 
 * [TODOs for the next version (areas for improvement)](#TOC1)
 * [Back-end development enviroment set-up](#TOC2)
@@ -40,7 +40,7 @@ Adam | Pass4Adam!
   - [ ] Interface to manage cost categories  (and potencially curriencies)
   - [ ] Nicer visual design for "Items per Page:" "Pages:" and "Filter:" elements
 
-# <a name="TOC2">Back-end development enviroment set-up</a>
+# [<a name="TOC2">Back-end development enviroment set-up</a>](#CONTENT)
 
 Prerequisites, apps availabe on computer:
  - Python3 
@@ -89,7 +89,7 @@ curl -u Eve:Pass4Eve! "http://127.0.0.1:8000/api/v1/expenses?cost_max=150&cost_m
 
 ```
 
-# <a name="TOC3">Front-end developent enviroment set-up</a>
+# [<a name="TOC3">Front-end developent enviroment set-up</a>](#CONTENT)
 
 1. Go to ExR directory (the one containing venv subdir)
 
@@ -137,9 +137,7 @@ npm run dev
 8. switch to browser (chrome), log in and enjoy the application
 
 
-<a name="anchors-in-markdown">[anchors in markdown]</a>
-
-# <a name="TOC1">What you can expect </a>
+# [<a name="TOC4">What you can expect </a>](#CONTENT)
 
 ## A couple of screenshots
 

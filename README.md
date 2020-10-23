@@ -3,11 +3,14 @@
 Simple Expense Register.
 Demo application to document and manage users expenses.
 
+(asdf#anchors-in-markdown)
+
 Key features:
-* front-end: Single Page Application : Vue.js
-* back-end: Django Rest Framework
-* end-to-end CRUD implementation
-* REST pagination and filtering
+* Front-end: Single Page Application : Vue.js
+* Back-end: Django Rest Framework
+* End-to-end CRUD
+* Rest pagination and filtering, Authorization, 
+
 
 Set-up procedure defines following test users in the database:
 
@@ -18,60 +21,66 @@ Adam | Pass4Adam!
 
 # Content:
 
-* ToDo in the next version (areas of improement)
-* Back-end development enviroment set-up
-* Front-end developent enviroment set-up
-* What you can expect. A couple of screenshots.
+* [TODOs for the next version (areas for improvement)](#TOC1)
+* [Back-end development enviroment set-up](#TOC2)
+* [Front-end developent enviroment set-up](#TOC3)
+* [What you can expect. A couple of screenshots](#TOC4)
   
-# ToDo in the next version (areas of improement)
-## Must-do
-- [ ] Witraw from dynamic Report tables refreshes on every expense add/delete/update operations (it overloads database). Add Refresh button instead.
-## Good-to-do
-- [ ] apply currency formatting for money values ($1,000 instead of 1000)
-- [ ] more consistent button colors and styles for different windows
-- [ ] input box for page entered by user from keyboard (not only selected with mouse)
-- [ ] reconsider and refactor 'Expensegrid.vue'. This file became too big.
-- [ ] initial "Items per Page:" selection box does not show default value. Correct.
-## Potential future functionality extensions
-- [ ] explicit currencies (USD, PLN, etc.)
-- [ ] interface to manage cost categories  (and potencially curriencies)
-- [ ] nicer visual design for "Items per Page:" "Pages:" and "Filter:" elements
+# <a name="TOC1">TODOs for the next version (areas of improvement) </a>
+- ### Must-do
+  - [ ] Witraw from dynamic Report tables refreshes on every expense add/delete/update operations (it overloads database). Add Refresh button instead.
+- ### Good-to-do
+  - [ ] Apply currency formatting for money values ($1,000 instead of 1000)
+  - [ ] More consistent button colors and styles for different windows
+  - [ ] Input box for page entered by user from keyboard (not only selected with mouse)
+  - [ ] Reconsider and refactor 'Expensegrid.vue'. This file became too big.
+  - [ ] Initial "Items per Page:" selection box does not show default value. Correct.
+- ### Potential future functionality extensions
+  - [ ] Explicit currencies (USD, PLN, etc.)
+  - [ ] Interface to manage cost categories  (and potencially curriencies)
+  - [ ] Nicer visual design for "Items per Page:" "Pages:" and "Filter:" elements
 
-# Back-end development enviroment set-up
+# <a name="TOC2">Back-end development enviroment set-up</a>
 
-* Step I
+Prerequisites, apps availabe on computer:
+ - Python3 
+ - curl (optionally)
+ 
+
+1. Download code and set-up python virtual enviroment
 ```
 git clone https://github.com/ka-r-ol/ExR.git
 
 cd ExR
+
 python3 -m venv venv
 source venv/bin/activate
 pip install pip --upgrade
 pip install -r requirements.txt
 ```
-* Step II
+2. Set-up database structure
 ```
 cd server
 python manage.py makemigrations
 python manage.py migrate 
 ```
 
-* Step III
 
-Upload sample records to the datbase from spots/scripts/spots.csv and set-up two test users (mentioned above)
+
+3. Upload randomly generated expenses to the datbase and set-up two test users (mentioned above)
 ```
 ./load_sample_data.sh
 ```
 
-### Test Django-Rest 
 
-Run local server:
+3 Run local server:
 ```
 python manage.py runserver
 ```
+
+4. Assure the server serves the data:
 Run tests: 
 ```
-
 curl -u Eve:Pass4Eve! http://localhost:8000/api/v1/categories | python -m json.tool
 
 curl -u Eve:Pass4Eve! http://127.0.0.1:8000/api/v1/expenses | python -m json.tool
@@ -80,26 +89,27 @@ curl -u Eve:Pass4Eve! "http://127.0.0.1:8000/api/v1/expenses?cost_max=150&cost_m
 
 ```
 
-# Front-end developent enviroment set-up
+# <a name="TOC3">Front-end developent enviroment set-up</a>
 
-* Go to ExR directory (the one containing venv subdir)
+1. Go to ExR directory (the one containing venv subdir)
 
-* Make sure you are in the virutal env (source venv/bin/activated )
+Make sure you are in the virutal env (source venv/bin/activated )
 
-* Install nodes virtual env tool:
+2. Install nodes virtual env tool:
 ```
 pip install nodeenv
 ```
-* Concatenate nodes virutal env with python virualenv:
+3.  Concatenate nodes virutal env with python virualenv:
 ```
 nodeenv -p
 ```
-
+4. Install Vue enviroment
 ```
 cd client
 npm install
 ```
 
+5. Add following packages to the enviroment
 install following packages:
 ```
 npm install axios
@@ -109,17 +119,41 @@ npm install vuex --save
 
 ### Run and Test SPA
 
-* Open chrome in development mode:
-Command for mac:
+6. Open chrome in development mode:
+Command :
+
+It's a mac version. Other operation systems may require adaptation of the command:
 ```
 open -n -a /Applications/Google\ Chrome.app --args --user-data-dir="/tmp/someFolderName" --disable-web-security
 ```
-in the main project directory there is a script: start_dev_chrome.sh (MAC only).
+in the client sub-directory there is a script: start_dev_chrome.sh (MAC only).
 
 
-* Start vue dev enviroment:
+7. Start vue dev enviroment:
 ```
 npm run dev
 ```
 
-* switch to browser (chrome), log in and enjoy the application
+8. switch to browser (chrome), log in and enjoy the application
+
+
+<a name="anchors-in-markdown">[anchors in markdown]</a>
+
+# <a name="TOC1">What you can expect </a>
+
+## A couple of screenshots
+
+Login screen:
+![Login Screen](screenshots/Screenshot_01.png)
+
+Expenses list:
+![Login Screen](screenshots/Screenshot_02.png)
+
+Filter sidebar:
+![Login Screen](screenshots/Screenshot_03.png)
+
+Update form:
+![Login Screen](screenshots/Screenshot_04.png)
+
+Session log:
+![Login Screen](screenshots/Screenshot_05.png)

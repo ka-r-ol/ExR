@@ -43,7 +43,7 @@
         <b-modal id="bv-modal-Expenses" hide-footer>
           <template #modal-title> About </template>
           <div class="d-block text-center">
-            <h4>Simple Expense Report</h4>
+            <h4>Simple Expense Registry</h4>
             <h5>v.01</h5>
             <h6>by Karol Lemański, 2020 Oct</h6>
           </div>

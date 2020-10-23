@@ -1,6 +1,5 @@
  <template>
   <div class="p-3">
-    <!--<h4 id="sidebar-no-header-title">FILTER:</h4> -->
     <div>
       <b-container fluid>
         <b-row class="my-1">
@@ -99,9 +98,6 @@
     <b-button size="sm" variant="secondary" block @click="onCopy"
       >Current to Form</b-button
     >
-    <!--<b-button size="sm" variant="warning" v-b-toggle.filter-sidebar block
-      >Toggle Filter</b-button
-    > -->
     <b-container class="mt-3" fluid>
       <b-row class="my-1"> Current parameters: </b-row>
       <b-row class="my-1">
@@ -166,16 +162,8 @@ export default {
       }
     },
     onApply: function () {
-      //this.paramFilter = this.editFilter;
-      //  for (var i in this.paramFilter) {
-      //   this.$store.state.paramFilter[i] = this.editFilter[i];
-      // }
-
       this.$store.commit("set_filter", this.editFilter);
-      //console.log("--paramFILTER--", this.$store.state.paramFilter);
-      this.$emit("clicked", {
-        //paramFilter: this.paramFilter,
-      });
+      this.$emit("clicked", {});
     },
     onClear: function () {
       this.editFilter = {

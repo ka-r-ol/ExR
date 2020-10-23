@@ -71,7 +71,6 @@
       <!--   LOG -->
       <b-collapse id="log">
         <b-card class="mb-2">
-          <!-- header-tag="header1"> -->
           <template #header>
             <h6 class="mb-0">Session log</h6>
           </template>
@@ -83,7 +82,6 @@
       <!--   ADD EXPENSE  -->
       <b-collapse id="add-expense" class="mb-3">
         <b-card class="mb-2">
-          <!-- header-tag="header2"> -->
           <template #header>
             <h6 class="mb-0">Add expense</h6>
           </template>
@@ -202,9 +200,7 @@
         </template>
         <!-- -->
         <template #row-details="row">
-          <!-- <b-collapse id="update-expense-1" class="mb-3"> -->
           <b-card class="mb-2">
-            <!-- header-tag="header2"> -->
             <template #header>
               <h6 class="mb-0">Update expense</h6>
             </template>
@@ -220,33 +216,9 @@
               @clicked="onUpdateExpense"
             />
           </b-card>
-          <!--          </b-collapse> -->
-          <!--
-          <b-card>
-            <b-button
-              variant="danger"
-              size="sm"
-              block
-              @click="removeExpense(row.item)"
-              >Click to remove the above expense (id:{{ row.item.id }}) from
-              database</b-button
-            >
-            <b-button
-              variant="warning"
-              size="sm"
-              block
-              @click="row.toggleDetails"
-            >
-              Cancel
-            </b-button>
-          </b-card>
-          -->
         </template>
         <!-- -->
       </b-table>
-      <!------ Delete Expense modal -->
-      <!--        @ok="executeDeleteModal" 
-        @hide="resetDeleteModal" -->
       <b-modal
         :id="deleteModal.id"
         :title="deleteModal.title"
@@ -258,54 +230,6 @@
           <pre>{{ deleteModal.content }}</pre>
         </div>
       </b-modal>
-      <!--
-      <b-modal
-        ref="deleteModal"
-        :id="deleteModal.id"
-        §hide-footer
-        :title="deleteModal.title"
-      >
-        <div class="d-block text-center">
-          <pre>{{ deleteModal.content }}</pre>
-        </div>
-        <b-button
-          class="mt-3"
-          variant="outline-success"
-          block
-          @click="executeDeleteModal"
-          >OK
-        </b-button>
-        <b-button
-          class="mt-3"
-          variant="outline-danger"
-          block
-          @click="resetDeleteModal"
-          >Cancel
-        </b-button>
-      </b-modal> -->
-      <!--
-      <b-modal hide-footer :id="deleteModal.id" :title="deleteModal.title">
-        <div class="d-block text-center">
-          <pre>{{ deleteModal.content }}</pre>
-        </div>
-        <div align="center">
-          <b-button
-            align="right"
-            class="mt-3"
-            variant="outline-success"
-            @click="executeDeleteModal"
-            >OK
-          </b-button>
-          <b-button
-            align="right"
-            class="mt-3"
-            variant="outline-danger"
-            @click="resetDeleteModal"
-            >Cancel
-          </b-button>
-        </div>
-      </b-modal> -->
-
       <!------ Delete Expense modal end -->
       <!--    Expense LIST END -->
     </div>
@@ -313,7 +237,6 @@
 </template>
 
 <script>
-//import { BASE_API_URL, LoadCategories } from "../settings";
 import axios from "axios";
 import ExpenseFilter from "./ExpenseFilter.vue";
 import AddUpdateExpense from "./AddUpdateExpense.vue";
@@ -365,14 +288,10 @@ export default {
           key: "categoryName",
           label: "Category",
           class: "small",
-          //sortable: true,
-          //variant: "info",
         },
         {
           key: "cost",
-          //sortable: true,
           class: "small text-right",
-          //variant: "danger",
         },
         {
           key: "actionDelete",
@@ -418,7 +337,6 @@ export default {
     showAxiosMsgModal(axiosStatusMsgTitle, axiosContentMsg) {
       this.axiosContentMsg = axiosContentMsg;
       this.axiosStatusMsgTitle = axiosStatusMsgTitle;
-      //console.log("showAxiosMsgMoal");
       this.$refs["axiosMsgModal"].show();
     },
     hideAxiosMsgModal() {
@@ -435,7 +353,6 @@ export default {
         "\nCost: " +
         item.cost +
         "\n\nDelete?";
-      //JSON.stringify(item, null, 2);
       this.$root.$emit("bv::show::modal", this.deleteModal.id, button);
     },
     resetDeleteModal() {
@@ -449,7 +366,6 @@ export default {
       //event.preventDefault();
       //this.$refs["deleteModal"].hide();
       this.$bvModal.hide(id);
-      //console.log("executeDeleteModal", this.deleteModal);
       this.removeExpense(this.deleteModal.item);
     },
     removeExpense(item) {
@@ -465,23 +381,19 @@ export default {
           },
         })
         .then((res) => {
-          //this.showAxiosMsgModal("Success", "Expense deleted");
           this.provideStats();
           this.$store.commit("register_delete_session_expense", item);
-          //this.$store.dispatch("loadStats");
           this.$refs.report.$refs.report_tab1.refresh();
           this.$refs.report.$refs.report_tab2.refresh();
           this.$refs.ExpenseGrid.refresh();
         })
         .catch((error) => {
-          //this.showAxiosMsgModal("Deletion failure", error);
           console.log(error); //Logs a string: Error: Request failed with status code 404
         });
     },
     onUpdateExpense: function (value) {
       event.preventDefault();
       var url = this.$store.state.BASE_API_URL + "expense/" + value.data.id;
-      //console.log("Placeholder onUpdateExpense", value, url);
       axios
         .patch(url, value.data, {
           auth: {
@@ -493,10 +405,8 @@ export default {
           },
         })
         .then((res) => {
-          //this.showAxiosMsgModal("Success", "Expense updated");
           this.provideStats();
           this.$store.commit("register_patch_session_expense", res.data);
-          //this.$store.dispatch("loadStats");
           this.$store.state.message_add_success =
             "Expense patched successfully";
           this.$store.state.message_add_danger = "";
@@ -530,7 +440,6 @@ export default {
 
           this.provideStats();
           this.$store.commit("register_add_session_expense", res.data);
-          //this.$store.dispatch("loadStats");
           this.$store.state.message_add_success = "Expense added successfully";
           this.$store.state.message_add_danger = "";
           this.$refs.report.$refs.report_tab1.refresh();
@@ -551,49 +460,9 @@ export default {
       this.$refs.report.$refs.report_tab1.refresh();
       this.$refs.report.$refs.report_tab2.refresh();
       this.$refs.ExpenseGrid.refresh();
-      /*
-      let url_stats = this.$store.state.BASE_API_URL + "stats";
-      if (this.$store.getters.get_filter_url_suffix != "") {
-        url_stats += "?" + this.$store.getters.get_filter_url_suffix.slice(1);
-      }
-
-      const promise = axios.get(url_stats, {
-        auth: {
-          username: this.$store.state.username,
-          password: this.$store.state.password,
-        },
-      });
-      return promise.then((res) => {
-        this.$store.state.stats = res.data;
-        this.$refs.report.$refs.report_tab1.refresh();
-        this.$refs.report.$refs.report_tab2.refresh();
-        this.$refs.ExpenseGrid.refresh();
-      });
-      */
-      /*
-      axios
-        .get(url_stats, {
-          auth: {
-            username: this.$store.state.username,
-            password: this.$store.state.password,
-          },
-        })
-        .then((res) => {
-          // Pluck the array of items off our axios response
-          this.$store.state.stats = res.data;
-          this.$refs.report.$refs.report_tab1.refresh();
-          this.$refs.report.$refs.report_tab2.refresh();
-          this.$refs.ExpenseGrid.refresh();
-          console.log("STAT RES.DATA", res.data);
-        })
-        .catch((error) => {
-          console.log(error); //Logs a string: Error: Request failed with status code 404
-        });
-        */
     },
     onExpenseFilter: function (value) {
       event.preventDefault();
-      //this.$store.dispatch("loadStats");
       this.provideStats();
     },
     handlePageSizeChange: function ($event) {
@@ -602,14 +471,9 @@ export default {
     },
     logout: function () {
       event.preventDefault();
-      this.$emit("clicked", {
-        // authorized: false,
-      });
+      this.$emit("clicked", {});
     },
     provideExpenses: function (ctx) {
-      //this.items[2]._rowVariant = "danger";
-      // http://127.0.0.1:8000/api/v1/expenses?limit=12&offset=1
-      //
       let limit = ctx.perPage;
       let offset = (ctx.currentPage - 1) * limit;
       let url_expenses =
@@ -620,7 +484,6 @@ export default {
         offset;
       url_expenses += this.$store.getters.get_filter_url_suffix;
 
-      //console.log("URL_EXPENSES", url_expenses);
       const promise = axios.get(url_expenses, {
         auth: {
           username: this.$store.state.username,
@@ -634,7 +497,6 @@ export default {
         this.items = res.data.results;
         this.count = res.data.count;
         this.items.forEach(
-          //(el) => (el.categoryName = this.categories[el.category])
           (el) => (el.categoryName = this.categories[el.category])
         );
         // Must return an array of items or an empty array if an error occurred

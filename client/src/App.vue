@@ -10,7 +10,6 @@
 </template>
 
 <script>
-//import { BASE_API_URL } from "./settings";
 import Login from "./components/Login.vue";
 import ExpenseGrid from "./components/ExpenseGrid.vue";
 import axios from "axios";

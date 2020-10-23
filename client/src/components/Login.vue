@@ -10,7 +10,6 @@
           placeholder="username"
           class="form-control form-control-lg"
         />
-        <!-- <input type="text" class="form-control form-control-lg" /> -->
       </div>
 
       <div class="form-group">
@@ -21,7 +20,6 @@
           placeholder="password"
           class="form-control form-control-lg"
         />
-        <!--<input type="password" class="form-control form-control-lg" /> -->
       </div>
       <button
         type="submit"
@@ -53,9 +51,6 @@ export default {
     process: function () {
       event.preventDefault();
 
-      //      var categories = {};
-      //      var categories_raw = [];
-
       var url = this.$store.state.BASE_API_URL + "me";
       axios
         .get(url, {
@@ -65,9 +60,7 @@ export default {
           },
         })
         .then((res) => {
-          //this.$store.state.user_id = res.data.id;
           this.$store.commit("set_user_id", res.data.id);
-          //console.log("USER_ID LOGIN", this.$store.state.user_id);
         })
         .catch((error) => {
           this.loginmsg = "Access denied. " + error;
@@ -83,21 +76,16 @@ export default {
           },
         })
         .then((res) => {
-          //categories_raw = res.data;
           this.$store.commit("set_categories", res.data);
-          //res.data.forEach((el) => (categories[el.id] = el.name));
           this.$store.commit("set_username_and_password", {
             username: this.username,
             password: this.password,
           });
-          this.$emit("clicked", {
-            //categories: categories,
-          });
+          this.$emit("clicked", {});
         })
         .catch((error) => {
           this.loginmsg = "Access denied. " + error;
         });
-      //this.$store.dispatch("loadStats");
     },
   },
 };

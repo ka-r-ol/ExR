@@ -46,8 +46,6 @@
 </template>
 
 <script>
-//import { mapState } from "vuex";
-
 export default {
   data() {
     return {};
@@ -64,10 +62,8 @@ export default {
       return categories_conv;
     },
     items() {
-      //this.$store.dispatch("loadStats");
       var it = [{ categories: "Number" }, { categories: "Total Cost" }];
       for (let i in this.$store.state.stats) {
-        //console.log(i, i.number, i.cost);
         it[0][i] = this.$store.state.stats[i]["number"];
         it[1][i] = this.$store.state.stats[i]["cost"];
       }
@@ -76,7 +72,6 @@ export default {
     totals() {
       var it = [{ "Total number": 0, "Total cost": 0 }];
       for (let i in this.$store.state.stats) {
-        //        console.log(i, i.number, i.cost);
         it[0]["Total number"] += this.$store.state.stats[i]["number"];
         it[0]["Total cost"] += this.$store.state.stats[i]["cost"];
       }

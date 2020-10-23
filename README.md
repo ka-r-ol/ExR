@@ -48,7 +48,6 @@ Prerequisites, apps availabe on computer:
  - Python3 
  - curl (optionally)
  
-
 1. Download code and set-up python virtual enviroment
 ```
 git clone https://github.com/ka-r-ol/ExR.git
@@ -67,20 +66,17 @@ python manage.py makemigrations
 python manage.py migrate 
 ```
 
-
-
 3. Upload randomly generated expenses to the datbase and set-up two test users (mentioned above)
 ```
 ./load_sample_data.sh
 ```
 
-
-3 Run local server:
+4. Run local server:
 ```
 python manage.py runserver
 ```
 
-4. Assure the server serves the data:
+5. Assure the server serves the data:
 Run tests: 
 ```
 curl -u Eve:Pass4Eve! http://localhost:8000/api/v1/categories | python -m json.tool
@@ -131,14 +127,12 @@ open -n -a /Applications/Google\ Chrome.app --args --user-data-dir="/tmp/someFol
 ```
 in the client sub-directory there is a script: start_dev_chrome.sh (MAC only).
 
-
 7. Start vue dev enviroment:
 ```
 npm run dev
 ```
 
 8. switch to browser (chrome), log in and enjoy the application
-
 
 # <a name="TOC4">What you can expect </a>
 [back to menu](#CONTENT)

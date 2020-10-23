@@ -1,6 +1,5 @@
  <template>
   <div class="p-3">
-    <!--<h4 id="sidebar-no-header-title">FILTER:</h4> -->
     <div>
       <b-container fluid>
         <!-- DATE  -->
@@ -89,18 +88,6 @@
       >
       <br />
     </div>
-    <!--
-    <div class="text-success">
-      {{ $store.state.message_add_success }}
-    </div>
-    <div class="text-danger">
-      {{ $store.state.message_add_danger }}
-    </div>
-    -->
-    <!-- BUTTONS END -->
-    <!--<b-button size="sm" variant="warning" v-b-toggle.filter-sidebar block
-      >Toggle Filter</b-button
-    > -->
   </div>
 </template>
 
@@ -144,8 +131,6 @@ export default {
       });
     },
     onAdd: function () {
-      //this.paramFilter = this.editFilter;
-      //console.log("PACZKA", this.date, this.name, this.category_id, this.cost);
       this.$emit("clicked", {
         data: {
           name: this.name,
@@ -160,7 +145,6 @@ export default {
       this.cost = 0;
       this.date = new Date().toLocaleDateString("sv"); //trick: Sweden locale uses the ISO 8601 format
       this.name = "";
-      //this.category__name = "";
       this.$store.state.message_add_success = "";
       this.$store.state.message_add_danger = "";
     },

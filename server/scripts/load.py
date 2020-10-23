@@ -66,7 +66,6 @@ class Generator:
 
 
 def run():
-
     start_time = datetime.datetime.now().replace(microsecond=0)
     n_Eve = 20
     n_Adam = 10*365*2

@@ -9,8 +9,6 @@ from django_filters import rest_framework as filters
 from rest.serializers import CategorySerializer, ExpenseSerializer, UserSerializer
 from rest.filters import ExpenseFilter
 
-# class ExpenseList(ListAPIView):
-
 
 class ExpenseListCreateView(ListCreateAPIView):
     #queryset = Expense.objects.all().order_by('id')

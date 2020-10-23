@@ -27,6 +27,7 @@ Adam | Pass4Adam!
 * [What you can expect. A couple of screenshots](#TOC4)
   
 # <a name="TOC1">TODOs for the next version (areas of improvement) </a>
+[back to menu](#CONTENT)
 - ### Must-do
   - [ ] Witraw from dynamic Report tables refreshes on every expense add/delete/update operations (it overloads database). Add Refresh button instead.
 - ### Good-to-do
@@ -40,7 +41,8 @@ Adam | Pass4Adam!
   - [ ] Interface to manage cost categories  (and potencially curriencies)
   - [ ] Nicer visual design for "Items per Page:" "Pages:" and "Filter:" elements
 
-# [<a name="TOC2">Back-end development enviroment set-up</a>](#CONTENT)
+# <a name="TOC2">Back-end development enviroment set-up</a>
+[back to menu](#CONTENT)
 
 Prerequisites, apps availabe on computer:
  - Python3 
@@ -89,7 +91,8 @@ curl -u Eve:Pass4Eve! "http://127.0.0.1:8000/api/v1/expenses?cost_max=150&cost_m
 
 ```
 
-# [<a name="TOC3">Front-end developent enviroment set-up</a>](#CONTENT)
+# <a name="TOC3">Front-end developent enviroment set-up</a>
+[back to menu](#CONTENT)
 
 1. Go to ExR directory (the one containing venv subdir)
 
@@ -137,7 +140,8 @@ npm run dev
 8. switch to browser (chrome), log in and enjoy the application
 
 
-# [<a name="TOC4">What you can expect </a>](#CONTENT)
+# <a name="TOC4">What you can expect </a>
+[back to menu](#CONTENT)
 
 ## A couple of screenshots
 

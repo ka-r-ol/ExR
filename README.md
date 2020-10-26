@@ -92,7 +92,7 @@ curl -u Eve:Pass4Eve! "http://127.0.0.1:8000/api/v1/expenses?cost_max=150&cost_m
 
 1. Go to ExR directory (the one containing venv subdir)
 
-Make sure you are in the virutal env (source venv/bin/activated )
+Make sure you are in the virutal env (source venv/bin/activate )
 
 2. Install nodes virtual env tool:
 ```
